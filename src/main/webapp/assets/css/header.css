@@ -1,0 +1,133 @@
+@font-face {
+    font-family: "SkateSemiBold";
+    src: url("../fonts/skate-5.ttf");
+}
+
+.logo {
+    font-family: SkateSemiBold, sans-serif;
+    font-size: 24px;
+}
+
+.logo::after {
+    content: ".";
+    color: var(--primary-color);
+    font-size: 32px;
+}
+
+.search-input {
+    border-right: none;
+}
+
+.nav-link {
+    color: #000;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    background-color: #eee;
+    transform: translateY(-5px);
+}
+
+.product-price {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.discount-badge {
+    background: var(--primary-color);
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.search-bar {
+    height: fit-content !important;
+}
+.search-bar .search-input {
+    box-shadow: none;
+    border: none;
+    padding-left: 15px !important;
+}
+
+.search-bar button {
+    padding: 0 20px !important;
+    margin: 2px;
+}
+
+select {
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+}
+
+/* Popup styling */
+.ship-to-popup {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: -14px;
+    z-index: 1055;
+    width: 260px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.ship-to-link:hover + .ship-to-popup,
+.ship-to-popup:hover,
+.auth-link:hover + .auth-popup,
+.auth-popup:hover {
+    display: block;
+}
+
+.ship-to-popup .triangle,
+.auth-popup .triangle {
+    position: absolute;
+    top: -15px;
+    left: 18px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ddd;
+}
+
+.strap {
+    width: 100%;
+    height: 20px;
+    position: absolute;
+    top: -20px;
+    left: 0;
+}
+
+.auth-popup {
+    display: none;
+    position: absolute;
+    top: 55px;
+    left: -15px;
+    z-index: 1055;
+    width: 260px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.rotate-right {
+    display: inline-block;
+    transform: rotate(180deg);
+}

@@ -12,7 +12,7 @@ import java.io.IOException;
 public class AuthServlet extends HttpServlet {
 
     // Simulating a user database for authentication
-    private static final String VALID_EMAIL = "abc@gamil.com";
+    private static final String VALID_EMAIL = "abc@gmail.com";
     private static final String VALID_PASSWORD = "123";
 
     // Simulating user registration details
@@ -33,7 +33,7 @@ public class AuthServlet extends HttpServlet {
                     request.setAttribute("signInEmailError", "Email is required.");
                     hasError = true;
                 } else if (!email.equals(VALID_EMAIL)) {
-                    request.setAttribute("signInEmailError", "Invalid email.");
+                    request.setAttribute("signInEmailError", "Email not found. Please sign up.");
                     hasError = true;
                 }
 
@@ -41,7 +41,7 @@ public class AuthServlet extends HttpServlet {
                     request.setAttribute("signInPasswordError", "Password is required.");
                     hasError = true;
                 } else if (!password.equals(VALID_PASSWORD)) {
-                    request.setAttribute("signInPasswordError", "Invalid password.");
+                    request.setAttribute("signInPasswordError", "Email or Password is incorrect. Please try again.");
                     hasError = true;
                 }
 
@@ -49,7 +49,7 @@ public class AuthServlet extends HttpServlet {
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 } else {
                     // User authenticated successfully
-                    response.sendRedirect("dashboard.jsp");
+                    response.sendRedirect("pages/homepage.jsp");
                 }
                 break;
 
@@ -69,6 +69,9 @@ public class AuthServlet extends HttpServlet {
 
                 if (password == null || password.isEmpty()) {
                     request.setAttribute("signUpPasswordError", "Password is required.");
+                    hasError = true;
+                } else if (password.equals(VALID_PASSWORD) || password.equals(REGISTERED_PASSWORD)) {
+                    request.setAttribute("signUpPasswordError", "Password already in use.");
                     hasError = true;
                 }
 

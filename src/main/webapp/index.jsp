@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 
-    <link rel="stylesheet" type="text/css" href="assets/css/auth.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/auth.css"/>
 </head>
 
 <body>
@@ -89,6 +89,6 @@
     </div>
 </div>
 
-<script src="assets/js/auth.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/auth.js"></script>
 </body>
 </html>

@@ -1,0 +1,48 @@
+:root {
+  --primary-color: #fe5f55;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* scroll-bar for Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffbfbb;
+  border-radius: 6px;
+  margin: 5px 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fe5f55;
+  border-radius: 6px;
+}
+
+/* cart items count */
+.cart-count {
+  position: absolute;
+  top: 6px;
+  right: -10px;
+  transform: translate(50%, -50%);
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+}

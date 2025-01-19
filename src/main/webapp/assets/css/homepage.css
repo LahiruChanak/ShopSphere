@@ -1,0 +1,103 @@
+.back-btn-container {
+    display: none !important;
+}
+
+.business-banner {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
+    url("/assets/images/business-banner.png") no-repeat bottom center/cover fixed;
+    color: white;
+    padding: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.business-banner-card {
+    text-shadow: none;
+    width: 100%;
+}
+
+.business-banner-card img {
+    height: 250px;
+}
+
+.label-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.count-label {
+    width: fit-content;
+    text-align: start;
+    border-left: 5px solid var(--primary-color);
+}
+
+.shop-now-btn {
+    background-color: #fff;
+    color: #000;
+    transition: all 0.5s ease;
+}
+
+.shop-now-btn:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* ////////////////////////////////////////////////////////// */
+
+.dropdown-container {
+    position: relative;
+}
+
+.dropdown-container:hover .all-categories-icon {
+    rotate: 180deg;
+}
+
+.all-categories {
+    z-index: 1000;
+    position: relative;
+}
+
+.all-categories-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 40px 13px 10px;
+    list-style: none;
+    width: 204px;
+    border-radius: 5px;
+}
+
+/* .all-categories-menu img {
+  filter: invert(40%);
+} */
+
+.all-categories-menu li {
+    transition: all 0.3s ease;
+}
+
+.all-categories-menu li:hover {
+    color: var(--primary-color);
+    padding-left: 10px;
+}
+
+/* .all-categories-menu li:hover img {
+  filter: invert(50%) sepia(12%) saturate(5086%) hue-rotate(320deg)
+    brightness(100%) contrast(100%);
+} */
+
+/* Hover effect to show the menu */
+.dropdown-container:hover .all-categories-menu {
+    display: block;
+}
+
+/* Ensure the images are properly aligned */
+.all-categories-menu img {
+    width: 20px;
+    height: auto;
+    vertical-align: middle;
+}
