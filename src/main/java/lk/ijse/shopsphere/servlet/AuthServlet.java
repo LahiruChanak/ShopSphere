@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet("/AuthServlet")
 public class AuthServlet extends HttpServlet {
@@ -39,15 +40,19 @@ public class AuthServlet extends HttpServlet {
                     }
 
                     if (!hasError) {
-                        String query = "SELECT * FROM customer WHERE email = ? AND password = ?";
+                        String query = "SELECT password FROM customer WHERE email = ?";
                         try (PreparedStatement stmt = connection.prepareStatement(query)) {
                             stmt.setString(1, email);
-                            stmt.setString(2, password);
 
                             try (ResultSet rs = stmt.executeQuery()) {
                                 if (rs.next()) {
-                                    // User authenticated successfully
-                                    response.sendRedirect("pages/homepage.jsp");
+                                    String hashedPassword = rs.getString("password");
+                                    if (BCrypt.checkpw(password, hashedPassword)) {
+                                        response.sendRedirect("pages/homepage.jsp");
+                                    } else {
+                                        request.setAttribute("signInPasswordError", "Email or Password is incorrect.");
+                                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                                    }
                                 } else {
                                     request.setAttribute("signInPasswordError", "Email or Password is incorrect.");
                                     request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -88,11 +93,12 @@ public class AuthServlet extends HttpServlet {
                         }
 
                         if (!hasError) {
+                            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
                             String insertQuery = "INSERT INTO customer (name, email, password) VALUES (?, ?, ?)";
                             try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
                                 insertStmt.setString(1, name);
                                 insertStmt.setString(2, email);
-                                insertStmt.setString(3, password);
+                                insertStmt.setString(3, hashedPassword);
                                 insertStmt.executeUpdate();
                                 response.sendRedirect("welcome.jsp");
                             }
@@ -116,9 +122,10 @@ public class AuthServlet extends HttpServlet {
                     }
 
                     if (!hasError) {
+                        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
                         String updateQuery = "UPDATE customer SET password = ? WHERE email = ?";
                         try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
-                            updateStmt.setString(1, password);
+                            updateStmt.setString(1, hashedPassword);
                             updateStmt.setString(2, email);
 
                             int rowsUpdated = updateStmt.executeUpdate();

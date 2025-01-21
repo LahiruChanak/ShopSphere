@@ -3,9 +3,7 @@
 <head>
     <title>Authentication - ShopSphere</title>
     <link rel="icon" href=""/>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/auth.css"/>
 </head>
 
@@ -18,15 +16,13 @@
             <br/>
             <input type="email" name="email" placeholder="Email"/>
             <span class="error">
-            <%= request.getAttribute("signInEmailError") != null ? request.getAttribute("signInEmailError") : "" %>
-          </span>
+                <%= request.getAttribute("signInEmailError") != null ? request.getAttribute("signInEmailError") : "" %>
+            </span>
             <input type="password" name="password" placeholder="Password"/>
             <span class="error">
-            <%= request.getAttribute("signInPasswordError") != null ? request.getAttribute("signInPasswordError") : "" %>
-          </span>
-
+                <%= request.getAttribute("signInPasswordError") != null ? request.getAttribute("signInPasswordError") : "" %>
+            </span>
             <button type="submit" name="action" value="signIn">Sign In</button>
-
             <div class="line-container">
                 <hr/>
                 Or
@@ -43,16 +39,16 @@
             <br/>
             <input type="text" name="name" placeholder="Name"/>
             <span class="error">
-            <%= request.getAttribute("signUpNameError") != null ? request.getAttribute("signUpNameError") : "" %>
-          </span>
+                <%= request.getAttribute("signUpNameError") != null ? request.getAttribute("signUpNameError") : "" %>
+            </span>
             <input type="email" name="email" placeholder="Email"/>
             <span class="error">
-            <%= request.getAttribute("signUpEmailError") != null ? request.getAttribute("signUpEmailError") : "" %>
-          </span>
+                <%= request.getAttribute("signUpEmailError") != null ? request.getAttribute("signUpEmailError") : "" %>
+            </span>
             <input type="password" name="password" placeholder="Password"/>
             <span class="error">
-            <%= request.getAttribute("signUpPasswordError") != null ? request.getAttribute("signUpPasswordError") : "" %>
-          </span>
+                <%= request.getAttribute("signUpPasswordError") != null ? request.getAttribute("signUpPasswordError") : "" %>
+            </span>
             <button type="submit" name="action" value="signUp">Sign Up</button>
         </form>
     </div>
@@ -66,7 +62,9 @@
                     Enter your email address to send OTP
                 </p>
                 <input type="email" name="email" placeholder="Email"/>
-                <%= request.getAttribute("resetEmailError") != null ? request.getAttribute("resetEmailError") : "" %>
+                <span class="error">
+                    <%= request.getAttribute("resetPasswordEmailError") != null ? request.getAttribute("resetPasswordEmailError") : "" %>
+                </span>
                 <div class="d-flex justify-content-center align-items-center">
                     <button
                             type="button"
@@ -81,21 +79,10 @@
             </div>
 
             <div id="reset-pw-form" class="hide">
-                <!-- <div class="d-flex align-items-center gap-3 mb-3">
-                  <button
-                    type="button"
-                    name="action"
-                    value="backToOtp"
-                    class="form-back"
-                    onclick="showSendOtpForm()"
-                  >
-                    <i class="hgi-stroke hgi-arrow-left-01"></i>
-                  </button>
-                  <h2 class="mb-0">OTP Verification</h2>
-                </div> -->
-                <%-- <input type="text" name="otp" placeholder="OTP" />--%>
                 <input type="password" name="password" placeholder="New Password"/>
-                <%= request.getAttribute("resetPasswordError") != null ? request.getAttribute("resetPasswordError") : "" %>
+                <span class="error">
+                    <%= request.getAttribute("resetPasswordError") != null ? request.getAttribute("resetPasswordError") : "" %>
+                </span>
                 <div class="d-flex justify-content-center align-items-center">
                     <button type="submit" name="action" value="resetPassword">
                         Reset Password

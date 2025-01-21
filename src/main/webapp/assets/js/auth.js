@@ -25,3 +25,13 @@ forgotPWLink.addEventListener("click", (e) => {
     signInForm.style.display = "none";
     resetPasswordForm.style.display = "block";
 });
+
+function showResetForm() {
+    document.getElementById("send-otp-btn").style.display = "none";
+    document.getElementById("reset-pw-form").style.display = "block";
+}
+
+function showSendOtpForm() {
+    document.getElementById("send-otp-form").style.display = "block";
+    document.getElementById("reset-pw-form").style.display = "none";
+}
