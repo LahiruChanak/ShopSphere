@@ -8,14 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.*;
+
+import lk.ijse.shopsphere.util.DBConnection;
 import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet("/AuthServlet")
 public class AuthServlet extends HttpServlet {
-
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/ecommerce";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Ijse@123";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,7 +24,7 @@ public class AuthServlet extends HttpServlet {
 
         boolean hasError = false;
 
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+        try (Connection connection = DBConnection.getConnection()) {
             switch (action) {
                 case "signIn":
                     if (email == null || email.isEmpty()) {
@@ -94,13 +92,14 @@ public class AuthServlet extends HttpServlet {
 
                         if (!hasError) {
                             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-                            String insertQuery = "INSERT INTO customer (name, email, password) VALUES (?, ?, ?)";
+                            String insertQuery = "INSERT INTO customer (name, email, password, registeredDate) VALUES (?, ?, ?, ?)";
                             try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
                                 insertStmt.setString(1, name);
                                 insertStmt.setString(2, email);
                                 insertStmt.setString(3, hashedPassword);
+                                insertStmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
                                 insertStmt.executeUpdate();
-                                response.sendRedirect("welcome.jsp");
+                                response.sendRedirect("index.jsp");
                             }
                         } else {
                             request.getRequestDispatcher("index.jsp").forward(request, response);

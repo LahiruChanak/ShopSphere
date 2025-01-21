@@ -21,7 +21,8 @@
                            placeholder="Search for products, brands and more"
                     />
                     <button class="btn btn-dark px-3 rounded-5">
-                        <a href="${pageContext.request.contextPath}/pages/search.jsp" class="text-decoration-none text-white">
+                        <a href="${pageContext.request.contextPath}/pages/search.jsp"
+                           class="text-decoration-none text-white">
                             <i class="hgi-stroke hgi-search-01 fs-5"></i>
                         </a>
                     </button>
@@ -79,14 +80,7 @@
                                     <div class="bg-transparent strap"></div>
                                     <div class="triangle"></div>
                                 </div>
-                                <div class="mb-1">
-                                    <button type="button" class="btn btn-dark w-100 rounded-5 mt-2">Sign in</button>
-                                </div>
-                                <div class="mb-3">
-                                    <button type="button" class="btn w-100 fw-medium">Register</button>
-                                </div>
-                                <hr/>
-                                <div>
+                                <div class="pt-2">
                                     <div class="mb-3">
                                         <a href="#" class="nav-link">
                                             <i class="hgi-stroke hgi-task-01 me-2 fs-5 align-middle"></i>
@@ -112,13 +106,13 @@
                                         </a>
                                     </div>
                                     <div class="mb-3">
-                                        <a href="#" class="nav-link">
+                                        <a href="${pageContext.request.contextPath}/pages/profile.jsp" class="nav-link">
                                             <i class="hgi-stroke hgi-user-circle me-2 fs-5 align-middle"></i>
                                             My Account
                                         </a>
                                     </div>
                                     <div class="mb-3">
-                                        <a href="#" class="nav-link">
+                                        <a href="${pageContext.request.contextPath}/index.jsp" class="nav-link">
                                             <i class="hgi-stroke hgi-login-01 me-2 fs-5 align-middle rotate-right"></i>
                                             Log out
                                         </a>
