@@ -60,13 +60,48 @@
     <!-- Reset Password -->
     <div class="form-container reset-password">
         <form action="AuthServlet" method="post">
-            <h1>Reset Password</h1>
-            <br/>
-            <input type="email" name="email" placeholder="Email"/>
-            <span class="error">
-            <%= request.getAttribute("resetPasswordEmailError") != null ? request.getAttribute("resetPasswordEmailError") : "" %>
-          </span>
-            <button type="submit" name="action" value="resetPassword">Reset Password</button>
+            <div id="send-otp-form">
+                <h1>Reset Password</h1>
+                <p class="text-muted small mb-3">
+                    Enter your email address to send OTP
+                </p>
+                <input type="email" name="email" placeholder="Email"/>
+                <%= request.getAttribute("resetEmailError") != null ? request.getAttribute("resetEmailError") : "" %>
+                <div class="d-flex justify-content-center align-items-center">
+                    <button
+                            type="button"
+                            name="action"
+                            value="sendOtp"
+                            id="send-otp-btn"
+                            onclick="showResetForm()"
+                    >
+                        Send OTP
+                    </button>
+                </div>
+            </div>
+
+            <div id="reset-pw-form" class="hide">
+                <!-- <div class="d-flex align-items-center gap-3 mb-3">
+                  <button
+                    type="button"
+                    name="action"
+                    value="backToOtp"
+                    class="form-back"
+                    onclick="showSendOtpForm()"
+                  >
+                    <i class="hgi-stroke hgi-arrow-left-01"></i>
+                  </button>
+                  <h2 class="mb-0">OTP Verification</h2>
+                </div> -->
+                <%-- <input type="text" name="otp" placeholder="OTP" />--%>
+                <input type="password" name="password" placeholder="New Password"/>
+                <%= request.getAttribute("resetPasswordError") != null ? request.getAttribute("resetPasswordError") : "" %>
+                <div class="d-flex justify-content-center align-items-center">
+                    <button type="submit" name="action" value="resetPassword">
+                        Reset Password
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 

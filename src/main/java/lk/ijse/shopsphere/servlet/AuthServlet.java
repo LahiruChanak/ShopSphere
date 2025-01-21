@@ -7,18 +7,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.*;
 
 @WebServlet("/AuthServlet")
 public class AuthServlet extends HttpServlet {
 
-    // Simulating a user database for authentication
-    private static final String VALID_EMAIL = "abc@gmail.com";
-    private static final String VALID_PASSWORD = "123";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/ecommerce";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "Ijse@123";
 
-    // Simulating user registration details
-    private static final String REGISTERED_EMAIL = "newuser@example.com";
-    private static final String REGISTERED_PASSWORD = "newpassword123";
-
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         String email = request.getParameter("email");
@@ -27,81 +25,121 @@ public class AuthServlet extends HttpServlet {
 
         boolean hasError = false;
 
-        switch (action) {
-            case "signIn":
-                if (email == null || email.isEmpty()) {
-                    request.setAttribute("signInEmailError", "Email is required.");
-                    hasError = true;
-                } else if (!email.equals(VALID_EMAIL)) {
-                    request.setAttribute("signInEmailError", "Email not found. Please sign up.");
-                    hasError = true;
-                }
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            switch (action) {
+                case "signIn":
+                    if (email == null || email.isEmpty()) {
+                        request.setAttribute("signInEmailError", "Email is required.");
+                        hasError = true;
+                    }
 
-                if (password == null || password.isEmpty()) {
-                    request.setAttribute("signInPasswordError", "Password is required.");
-                    hasError = true;
-                } else if (!password.equals(VALID_PASSWORD)) {
-                    request.setAttribute("signInPasswordError", "Email or Password is incorrect. Please try again.");
-                    hasError = true;
-                }
+                    if (password == null || password.isEmpty()) {
+                        request.setAttribute("signInPasswordError", "Password is required.");
+                        hasError = true;
+                    }
 
-                if (hasError) {
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
-                } else {
-                    // User authenticated successfully
-                    response.sendRedirect("pages/homepage.jsp");
-                }
-                break;
+                    if (!hasError) {
+                        String query = "SELECT * FROM customer WHERE email = ? AND password = ?";
+                        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                            stmt.setString(1, email);
+                            stmt.setString(2, password);
 
-            case "signUp":
-                if (name == null || name.isEmpty()) {
-                    request.setAttribute("signUpNameError", "Name is required.");
-                    hasError = true;
-                }
+                            try (ResultSet rs = stmt.executeQuery()) {
+                                if (rs.next()) {
+                                    // User authenticated successfully
+                                    response.sendRedirect("pages/homepage.jsp");
+                                } else {
+                                    request.setAttribute("signInPasswordError", "Email or Password is incorrect.");
+                                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                                }
+                            }
+                        }
+                    } else {
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                    }
+                    break;
 
-                if (email == null || email.isEmpty()) {
-                    request.setAttribute("signUpEmailError", "Email is required.");
-                    hasError = true;
-                } else if (email.equals(VALID_EMAIL) || email.equals(REGISTERED_EMAIL)) {
-                    request.setAttribute("signUpEmailError", "Email already in use.");
-                    hasError = true;
-                }
+                case "signUp":
+                    if (name == null || name.isEmpty()) {
+                        request.setAttribute("signUpNameError", "Name is required.");
+                        hasError = true;
+                    }
 
-                if (password == null || password.isEmpty()) {
-                    request.setAttribute("signUpPasswordError", "Password is required.");
-                    hasError = true;
-                } else if (password.equals(VALID_PASSWORD) || password.equals(REGISTERED_PASSWORD)) {
-                    request.setAttribute("signUpPasswordError", "Password already in use.");
-                    hasError = true;
-                }
+                    if (email == null || email.isEmpty()) {
+                        request.setAttribute("signUpEmailError", "Email is required.");
+                        hasError = true;
+                    }
 
-                if (hasError) {
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
-                } else {
-                    // Simulate user registration success
-                    response.sendRedirect("welcome.jsp");
-                }
-                break;
+                    if (password == null || password.isEmpty()) {
+                        request.setAttribute("signUpPasswordError", "Password is required.");
+                        hasError = true;
+                    }
 
-            case "resetPassword":
-                if (email == null || email.isEmpty()) {
-                    request.setAttribute("resetPasswordEmailError", "Email is required.");
-                    hasError = true;
-                } else if (!email.equals(VALID_EMAIL) && !email.equals(REGISTERED_EMAIL)) {
-                    request.setAttribute("resetPasswordEmailError", "Email not found.");
-                    hasError = true;
-                }
+                    if (!hasError) {
+                        String checkQuery = "SELECT * FROM customer WHERE email = ?";
+                        try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
+                            checkStmt.setString(1, email);
+                            try (ResultSet rs = checkStmt.executeQuery()) {
+                                if (rs.next()) {
+                                    request.setAttribute("signUpEmailError", "Email already in use.");
+                                    hasError = true;
+                                }
+                            }
+                        }
 
-                if (hasError) {
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
-                } else {
-                    // Simulate password reset success
-                    response.sendRedirect("password-reset-success.jsp");
-                }
-                break;
+                        if (!hasError) {
+                            String insertQuery = "INSERT INTO customer (name, email, password) VALUES (?, ?, ?)";
+                            try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+                                insertStmt.setString(1, name);
+                                insertStmt.setString(2, email);
+                                insertStmt.setString(3, password);
+                                insertStmt.executeUpdate();
+                                response.sendRedirect("welcome.jsp");
+                            }
+                        } else {
+                            request.getRequestDispatcher("index.jsp").forward(request, response);
+                        }
+                    } else {
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                    }
+                    break;
 
-            default:
-                response.sendRedirect("index.jsp");
+                case "resetPassword":
+                    if (email == null || email.isEmpty()) {
+                        request.setAttribute("resetPasswordEmailError", "Email is required.");
+                        hasError = true;
+                    }
+
+                    if (password == null || password.isEmpty()) {
+                        request.setAttribute("resetPasswordError", "New password is required.");
+                        hasError = true;
+                    }
+
+                    if (!hasError) {
+                        String updateQuery = "UPDATE customer SET password = ? WHERE email = ?";
+                        try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
+                            updateStmt.setString(1, password);
+                            updateStmt.setString(2, email);
+
+                            int rowsUpdated = updateStmt.executeUpdate();
+                            if (rowsUpdated > 0) {
+                                response.sendRedirect("password-reset-success.jsp");
+                            } else {
+                                request.setAttribute("resetPasswordEmailError", "Email not found.");
+                                request.getRequestDispatcher("index.jsp").forward(request, response);
+                            }
+                        }
+                    } else {
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                    }
+                    break;
+
+                default:
+                    response.sendRedirect("index.jsp");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error occurred.");
         }
     }
 }
