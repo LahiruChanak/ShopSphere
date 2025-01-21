@@ -242,15 +242,8 @@ hr {
 
 /* -------------------- error -------------------- */
 .error, .success {
+    color: #fe5f55;
     width: 95%;
     font-size: 13px;
     margin: 0 0 0 10px;
-}
-
-.error {
-    color: #fe5f55;
-}
-
-.success {
-    color: #4caf50;
 }
