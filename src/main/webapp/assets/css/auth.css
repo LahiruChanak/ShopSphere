@@ -241,9 +241,16 @@ hr {
 }
 
 /* -------------------- error -------------------- */
-.error {
+.error, .success {
     width: 95%;
-    color: #fe5f55;
     font-size: 13px;
     margin: 0 0 0 10px;
+}
+
+.error {
+    color: #fe5f55;
+}
+
+.success {
+    color: #4caf50;
 }
