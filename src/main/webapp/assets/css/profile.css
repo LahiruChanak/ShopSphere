@@ -49,14 +49,6 @@
     transition: transform 0.3s ease;
 }
 
-.btn-primary {
-    background-color: #0d6efd;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 500;
-}
-
 .btn-primary:hover {
     background-color: #0b5ed7;
 }
@@ -68,8 +60,8 @@
 }
 
 .form-control:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+    border-color: #fe5f55;
+    box-shadow: 0 0 0 3px rgba(255, 112, 102, 0.25);
 }
 
 .alert {
@@ -86,4 +78,16 @@ input {
 
 .cart-count {
     background-color: #fe5f55 !important;
+}
+
+.nav-link:hover {
+    color: #fe5f55 !important;
+}
+
+.logo::after {
+    color: #fe5f55 !important;
+}
+
+.welcome-section span {
+    color: #0d6efd !important;
 }

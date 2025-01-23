@@ -37,7 +37,7 @@
         <% } %>
 
         <div class="welcome-section mb-5 mt-4">
-            <h1 class="h3">Welcome, <%= session.getAttribute("fullName") %> </h1>
+            <h1 class="h3">Welcome, <span class="userName"> <%= session.getAttribute("fullName") %> </span> </h1>
             <div id="current-time" class="text-muted ms-3"></div>
         </div>
 
