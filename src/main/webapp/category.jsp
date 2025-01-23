@@ -1,4 +1,7 @@
+<%@ page import="lk.ijse.shopsphere.dto.CategoryDTO" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Category Management</title>
@@ -14,7 +17,6 @@
 <div class="container mt-4">
     <h2>Category Management</h2>
 
-    <!-- Category Form -->
     <div class="card mb-4">
         <div class="card-header">
             <h5 class="mb-0">Add/Edit Category</h5>
@@ -46,12 +48,15 @@
         </div>
     </div>
 
-    <!-- Categories List -->
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0">Categories List</h5>
         </div>
         <div class="card-body">
+            <%
+                List<CategoryDTO> categoryList = (List<CategoryDTO>) request.getAttribute("categories");
+                if (categoryList != null && !categoryList.isEmpty()) {
+            %>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -64,8 +69,30 @@
                 </tr>
                 </thead>
                 <tbody>
+                <% for (CategoryDTO dto : categoryList) { %>
+                <tr>
+                    <td><%= dto.getId() %></td>
+                    <td>
+                        <% if (dto.getIcon() != null) { %>
+                        <img src="data:image/png;base64,<%= dto.getIcon() %>" class="preview-image" alt="Icon">
+                        <% } else { %>
+                        No Icon
+                        <% } %>
+                    </td>
+                    <td><%= dto.getName() %></td>
+                    <td><%= dto.getDescription() %></td>
+                    <td><%= dto.getStatus() %></td>
+                    <td>
+                        <a href="deleteCategory?id=<%= dto.getId() %>" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="editCategory?id=<%= dto.getId() %>" class="btn btn-warning btn-sm">Edit</a>
+                    </td>
+                </tr>
+                <% } %>
                 </tbody>
             </table>
+            <% } else { %>
+            <p>No categories found.</p>
+            <% } %>
         </div>
     </div>
 </div>
@@ -75,18 +102,6 @@
     // Image preview functionality
     document.getElementById('icon').addEventListener('change', function (e) {
         const preview = document.getElementById('imagePreview');
-        preview.innerHTML = '';
-        const file = e.target.files[0];
-        if (file) {
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.className = 'preview-image';
-            preview.appendChild(img);
-        }
-    });
-
-    document.getElementById('image').addEventListener('change', function (e) {
-        const preview = document.getElementById('productImagePreview');
         preview.innerHTML = '';
         const file = e.target.files[0];
         if (file) {
