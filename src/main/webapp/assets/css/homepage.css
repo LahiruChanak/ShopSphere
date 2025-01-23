@@ -101,3 +101,7 @@
     height: auto;
     vertical-align: middle;
 }
+
+.back-icon {
+    display: none !important;
+}
