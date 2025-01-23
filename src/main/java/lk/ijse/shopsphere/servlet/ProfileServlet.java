@@ -1,5 +1,6 @@
 package lk.ijse.shopsphere.servlet;
 
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -31,7 +32,7 @@ public class ProfileServlet extends HttpServlet {
                 session.setAttribute("phoneNumber", customer.getPhoneNumber());
                 session.setAttribute("address", customer.getAddress());
 
-                // Set image in session if retrieved from database
+                // Set image in session if retrieved from the database
                 if (customer.getImage() != null) {
                     session.setAttribute("image", customer.getImage());
                 }
@@ -54,11 +55,6 @@ public class ProfileServlet extends HttpServlet {
             e.printStackTrace();
             sendError(request, response, "Database error: " + e.getMessage());
         }
-    }
-
-    private void handleMissingCustomerId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("errorMessage", "Customer ID not found. Please log in again.");
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
     private void sendError(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {

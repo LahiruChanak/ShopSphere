@@ -35,7 +35,7 @@ body {
   top: 6px;
   right: -10px;
   transform: translate(50%, -50%);
-  background-color: var(--primary-color);
+  background-color: #fe5f55 !important;
   color: white;
   border-radius: 50%;
   width: 20px;

@@ -1,44 +1,89 @@
-.profile-header {
-    background: linear-gradient(120deg, #e0f2ff, #fff5e6);
-    padding: 2rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
+.profile-image-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    padding: 10px;
 }
 
-.profile-picture {
-    width: 100px;
-    height: 100px;
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 50%;
+    border: 2px solid #aaa !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.form-control {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
-    padding: 0.75rem;
+.file-input-container {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    background: #fff;
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
-.email-box {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+.file-input-container input[type="file"] {
+    display: none;
 }
 
-.email-icon {
-    width: 40px;
-    height: 40px;
-    background: #e7f1ff;
-    border-radius: 8px;
+.file-input-container label {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #0d6efd;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #0d6efd;
+    color: #fff;
+    cursor: pointer;
 }
 
-.edit-btn {
+.card {
+    border: none !important;
+    border-radius: 20px !important;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3) !important;
+    transition: transform 0.3s ease;
+}
+
+.btn-primary {
     background-color: #0d6efd;
-    color: white;
     border: none;
-    padding: 0.5rem 1.5rem;
-    border-radius: 6px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+
+.alert {
+    border-radius: 8px;
+}
+
+h1, h5 {
+    color: #333;
+}
+
+input {
+    box-shadow: none !important;
+}
+
+.cart-count {
+    background-color: #fe5f55 !important;
 }
