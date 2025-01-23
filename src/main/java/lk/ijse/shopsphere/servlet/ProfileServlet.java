@@ -12,7 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.Base64;
 
 @WebServlet("/ProfileServlet")
 @MultipartConfig(maxFileSize = 10 * 1024 * 1024) // 10MB
@@ -31,6 +30,11 @@ public class ProfileServlet extends HttpServlet {
                 session.setAttribute("email", customer.getEmail());
                 session.setAttribute("phoneNumber", customer.getPhoneNumber());
                 session.setAttribute("address", customer.getAddress());
+
+                // Set image in session if retrieved from database
+                if (customer.getImage() != null) {
+                    session.setAttribute("image", customer.getImage());
+                }
             }
 
             switch (action) {
@@ -54,12 +58,12 @@ public class ProfileServlet extends HttpServlet {
 
     private void handleMissingCustomerId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("errorMessage", "Customer ID not found. Please log in again.");
-        request.getRequestDispatcher("pages/profile.jsp").forward(request, response);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
     private void sendError(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
         request.setAttribute("errorMessage", message);
-        request.getRequestDispatcher("pages/profile.jsp").forward(request, response);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
     private void updateImage(HttpServletRequest request, HttpServletResponse response, Connection connection, Integer customerId) throws ServletException, IOException, SQLException {
@@ -76,7 +80,7 @@ public class ProfileServlet extends HttpServlet {
             }
         } else {
             request.setAttribute("errorMessage", "Please select an image to upload.");
-            request.getRequestDispatcher("pages/profile.jsp").forward(request, response);
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
         }
     }
 
@@ -87,13 +91,15 @@ public class ProfileServlet extends HttpServlet {
             statement.setInt(2, customerId);
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
+                // Update image in session after successful update
                 request.getSession().setAttribute("image", imageBytes);
                 request.setAttribute("successMessage", "Profile image updated successfully.");
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
             } else {
                 request.setAttribute("errorMessage", "Failed to update profile image.");
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
             }
         }
-        request.getRequestDispatcher("pages/profile.jsp").forward(request, response);
     }
 
     private void changePassword(HttpServletRequest request, HttpServletResponse response, Connection connection, Integer customerId) throws ServletException, IOException, SQLException {
@@ -131,7 +137,7 @@ public class ProfileServlet extends HttpServlet {
                 }
             }
         }
-        request.getRequestDispatcher("pages/profile.jsp").forward(request, response);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
     private void updateProfile(HttpServletRequest request, HttpServletResponse response, Connection connection, Integer customerId) throws ServletException, IOException, SQLException {
@@ -156,8 +162,8 @@ public class ProfileServlet extends HttpServlet {
                 session.setAttribute("address", address);
 
                 CustomerDTO customer = getCustomerDetails(connection, customerId);
-                if (customer != null && customer.getImageBase64() != null) {
-                    session.setAttribute("image", Base64.getDecoder().decode(customer.getImageBase64()));
+                if (customer != null && customer.getImage() != null) {
+                    session.setAttribute("image", customer.getImage());
                 } else {
                     session.removeAttribute("image");
                 }
@@ -166,7 +172,7 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "Failed to update profile.");
             }
         }
-        request.getRequestDispatcher("pages/profile.jsp").forward(request, response);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
     private CustomerDTO getCustomerDetails(Connection connection, Integer customerId) throws SQLException {
@@ -181,10 +187,7 @@ public class ProfileServlet extends HttpServlet {
                     customer.setEmail(resultSet.getString("email"));
                     customer.setAddress(resultSet.getString("address"));
                     customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                    byte[] imageBytes = resultSet.getBytes("image");
-                    if (imageBytes != null) {
-                        customer.setImageBase64(Base64.getEncoder().encodeToString(imageBytes));
-                    }
+                    customer.setImage(resultSet.getBytes("image"));
                     return customer;
                 }
             }

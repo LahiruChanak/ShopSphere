@@ -47,11 +47,11 @@
                     <div class="card-body text-center">
                         <img src="
                             <% if (session.getAttribute("image") != null) { %>
-                                data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString((byte[]) session.getAttribute("image")) %>
+                            data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString((byte[]) session.getAttribute("image")) %>
                             <% } else { %>
-                                <%= request.getContextPath() %>/assets/images/default-profile.png
-                            <% } %>
-                        " class="rounded-circle img-fluid profile-image" alt="Profile Picture"/>
+                            <%= request.getContextPath() %>/assets/images/default-profile.png
+                        <% } %>
+                            " class="rounded-circle img-fluid profile-image" alt="Profile Picture"/>
                         <form action="ProfileServlet?action=updateImage" method="post" enctype="multipart/form-data">
                             <div class="mt-3"><input type="file" name="profileImage" accept="image/*"
                                                      class="form-control"></div>

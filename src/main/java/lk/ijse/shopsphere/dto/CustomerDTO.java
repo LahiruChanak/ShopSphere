@@ -21,11 +21,4 @@ public class CustomerDTO {
     private Timestamp registeredDate;
     private byte[] image;
 
-    public byte[] getImageBase64() {
-        return Base64.getEncoder().encode(this.image);
-    }
-
-    public void setImageBase64(String imageBase64) {
-        this.image = new String(Base64.getDecoder().decode(imageBase64)).getBytes();
-    }
 }
