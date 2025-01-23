@@ -79,7 +79,7 @@
                     <div class="d-flex align-items-center gap-2">
                         <i class="hgi-stroke hgi-user-circle fs-3"></i>
                         <div class="dropdown">
-                            <a href="${pageContext.request.contextPath}/pages/profile.jsp"
+                            <a href="${pageContext.request.contextPath}/profile.jsp"
                                class="text-decoration-none small auth-link">
                                 <span class="text-black">Welcome</span><br/>
                                 <span class="fw-bold nav-link"> Sign In / Register</span>
@@ -115,7 +115,7 @@
                                         </a>
                                     </div>
                                     <div class="mb-3">
-                                        <a href="${pageContext.request.contextPath}/pages/profile.jsp" class="nav-link">
+                                        <a href="${pageContext.request.contextPath}/profile.jsp" class="nav-link">
                                             <i class="hgi-stroke hgi-user-circle me-2 fs-5 align-middle"></i>
                                             My Account
                                         </a>
