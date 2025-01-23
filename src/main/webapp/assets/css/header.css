@@ -132,3 +132,10 @@ select {
     display: inline-block;
     transform: rotate(180deg);
 }
+
+.header-profile {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}

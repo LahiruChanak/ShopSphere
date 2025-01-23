@@ -1,3 +1,4 @@
+<%@ page import="java.util.Base64" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,8 +10,9 @@
     />
 
     <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"/>
-    
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css"/>
+    <script rel="stylesheet" src="${pageContext.request.contextPath}/assets/css/common.css"></script>
 </head>
 <body>
 <header class="bg-white border-bottom">
@@ -77,12 +79,22 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <i class="hgi-stroke hgi-user-circle fs-3"></i>
+                        <div>
+                            <% if (session.getAttribute("image") != null) { %>
+                            <img
+                                    src="data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString((byte[]) session.getAttribute("image")) %>"
+                                    class="header-profile"
+                                    alt="Profile Picture"/>
+                            <% } else { %>
+                            <i class="hgi-stroke hgi-user-circle fs-3"></i>
+                            <% } %>
+                        </div>
+
                         <div class="dropdown">
                             <a href="${pageContext.request.contextPath}/profile.jsp"
                                class="text-decoration-none small auth-link">
                                 <span class="text-black">Welcome</span><br/>
-                                <span class="fw-bold nav-link"> Sign In / Register</span>
+                                <span class="fw-bold nav-link"> <%= session.getAttribute("fullName") %> </span>
                             </a>
                             <div class="auth-popup pt-2 p-3 rounded-4 bg-white">
                                 <div>
