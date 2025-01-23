@@ -15,18 +15,22 @@ import java.sql.*;
 import java.util.Base64;
 
 @WebServlet("/ProfileServlet")
-@MultipartConfig(maxFileSize = 1024 * 1024 * 5) // 5MB
+@MultipartConfig(maxFileSize = 10 * 1024 * 1024) // 10MB
 public class ProfileServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
+        Integer customerId = (Integer) session.getAttribute("customerId");
+
         try (Connection connection = DBConnection.getConnection()) {
-            Integer customerId = (Integer) session.getAttribute("customerId");
-            if (customerId == null) {
-                handleMissingCustomerId(request, response);
-                return;
+            if (customerId != null) {
+                CustomerDTO customer = getCustomerDetails(connection, customerId);
+                session.setAttribute("fullName", customer.getName());
+                session.setAttribute("email", customer.getEmail());
+                session.setAttribute("phoneNumber", customer.getPhoneNumber());
+                session.setAttribute("address", customer.getAddress());
             }
 
             switch (action) {
