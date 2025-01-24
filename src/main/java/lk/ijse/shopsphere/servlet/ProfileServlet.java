@@ -5,9 +5,11 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import lk.ijse.shopsphere.dto.CustomerDTO;
-import lk.ijse.shopsphere.util.DBConnection;
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,13 +19,26 @@ import java.sql.*;
 @MultipartConfig(maxFileSize = 10 * 1024 * 1024) // 10MB
 public class ProfileServlet extends HttpServlet {
 
+    private DataSource dataSource;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/ecommerce");
+        } catch (Exception e) {
+            throw new ServletException("Failed to initialize DataSource", e);
+        }
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
-        String email = (String) request.getSession().getAttribute("email");
+        String email = (String) session.getAttribute("email");
 
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             if (email != null) {
                 CustomerDTO customer = getCustomerDetails(connection, email);
                 session.setAttribute("fullName", customer.getName());
@@ -103,14 +118,11 @@ public class ProfileServlet extends HttpServlet {
             statement.setString(2, userEmail);
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-
                 request.getSession().setAttribute("image", imageBytes);
                 request.setAttribute("successMessage", "Profile image updated successfully.");
-//                request.getRequestDispatcher("profile.jsp").forward(request, response);
                 response.sendRedirect("index.jsp");
             } else {
                 request.setAttribute("errorMessage", "Failed to update profile image.");
-//                request.getRequestDispatcher("profile.jsp").forward(request, response);
                 response.sendRedirect("index.jsp");
             }
         }
@@ -173,13 +185,11 @@ public class ProfileServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             if (rowsUpdated > 0) {
-                // Update session attributes with new profile data
                 session.setAttribute("fullName", fullName);
                 session.setAttribute("email", email);
                 session.setAttribute("phoneNumber", phoneNumber);
                 session.setAttribute("address", address);
 
-                // Fetch updated customer details
                 CustomerDTO customer = getCustomerDetails(connection, email);
                 if (customer != null && customer.getImage() != null) {
                     session.setAttribute("image", customer.getImage());
@@ -187,10 +197,8 @@ public class ProfileServlet extends HttpServlet {
                     session.removeAttribute("image");
                 }
 
-                // Set success message in session
                 session.setAttribute("successMessage", "Profile updated successfully.");
             } else {
-                // Set error message in session
                 session.setAttribute("errorMessage", "Failed to update profile.");
             }
         }
@@ -219,34 +227,26 @@ public class ProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Retrieve the email from the session
         String email = (String) req.getSession().getAttribute("email");
 
-        // Check if email is available in the session
         if (email == null || email.isEmpty()) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Customer Email is required");
             return;
         }
 
-        try (Connection connection = DBConnection.getConnection()) {
-            // Call the getCustomerDetails method
+        try (Connection connection = dataSource.getConnection()) {
             CustomerDTO customer = getCustomerDetails(connection, email);
 
-            // Check if the customer was found
             if (customer == null) {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Customer not found");
                 return;
             }
 
-            // Set the customer as a request attribute to pass to a JSP (optional)
             req.setAttribute("customer", customer);
-
-            // Forward to a JSP page to display customer details (optional)
             req.getRequestDispatcher("/profile.jsp").forward(req, resp);
 
         } catch (SQLException e) {
             throw new ServletException("Database error while retrieving customer details", e);
         }
     }
-
 }
