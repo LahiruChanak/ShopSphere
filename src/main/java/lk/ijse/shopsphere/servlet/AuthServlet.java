@@ -19,6 +19,9 @@ public class AuthServlet extends HttpServlet {
 
     private DataSource dataSource;
 
+    private static final String ADMIN_EMAIL = "admin@shopsphere.com";
+    private static final String ADMIN_PASSWORD = BCrypt.hashpw("Admin@123", BCrypt.gensalt(12));
+
     @Override
     public void init() throws ServletException {
         try {
@@ -53,6 +56,21 @@ public class AuthServlet extends HttpServlet {
                     }
 
                     if (!hasError) {
+                        if (ADMIN_EMAIL.equals(email)) {
+                            if (BCrypt.checkpw(password, ADMIN_PASSWORD)) {
+                                HttpSession session = request.getSession();
+                                session.setAttribute("isAdmin", true);
+                                session.setAttribute("email", ADMIN_EMAIL);
+                                response.sendRedirect("admin-dashboard.jsp");
+                                return;
+                            } else {
+                                request.setAttribute("signInPasswordError", "Email or Password is incorrect.");
+                                request.getRequestDispatcher("index.jsp").forward(request, response);
+                                return;
+                            }
+                        }
+
+                        // Customer login
                         String query = "SELECT id, name, email, password FROM customer WHERE email = ?";
                         try (PreparedStatement stmt = connection.prepareStatement(query)) {
                             stmt.setString(1, email);
@@ -67,8 +85,6 @@ public class AuthServlet extends HttpServlet {
                                         session.setAttribute("email", rs.getString("email"));
 
                                         request.getSession().setAttribute("email", rs.getString("email"));
-
-                                        // Fetch and store other user details in session (if needed)
                                         response.sendRedirect("pages/homepage.jsp");
                                     } else {
                                         request.setAttribute("signInPasswordError", "Email or Password is incorrect.");
@@ -101,6 +117,11 @@ public class AuthServlet extends HttpServlet {
                         hasError = true;
                     }
 
+                    if (ADMIN_EMAIL.equals(email)) {
+                        request.setAttribute("signUpEmailError", "This email is reserved for admin.");
+                        hasError = true;
+                    }
+
                     if (!hasError) {
                         String checkQuery = "SELECT * FROM customer WHERE email = ?";
                         try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
@@ -114,7 +135,7 @@ public class AuthServlet extends HttpServlet {
                         }
 
                         if (!hasError) {
-                            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12)); // Use recommended cost factor
+                            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
                             String insertQuery = "INSERT INTO customer (name, email, password) VALUES (?, ?, ?)";
                             try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
                                 insertStmt.setString(1, name);
@@ -143,7 +164,7 @@ public class AuthServlet extends HttpServlet {
                     }
 
                     if (!hasError) {
-                        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12)); // Use recommended cost factor
+                        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
                         String updateQuery = "UPDATE customer SET password = ? WHERE email = ?";
                         try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
                             updateStmt.setString(1, hashedPassword);
