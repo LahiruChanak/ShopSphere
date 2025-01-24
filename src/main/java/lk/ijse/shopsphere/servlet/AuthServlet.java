@@ -6,14 +6,29 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lk.ijse.shopsphere.util.DBConnection;
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.*;
 
 @WebServlet("/AuthServlet")
 public class AuthServlet extends HttpServlet {
+
+    private DataSource dataSource;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/ecommerce");
+        } catch (Exception e) {
+            throw new ServletException("Failed to initialize DataSource", e);
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,7 +39,7 @@ public class AuthServlet extends HttpServlet {
 
         boolean hasError = false;
 
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             switch (action) {
                 case "signIn":
                     if (email == null || email.isEmpty()) {
