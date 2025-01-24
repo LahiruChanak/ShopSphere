@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/product-manage.css"/>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="admin-header.jsp" %>
 
 <main>
     <div class="container my-5">
