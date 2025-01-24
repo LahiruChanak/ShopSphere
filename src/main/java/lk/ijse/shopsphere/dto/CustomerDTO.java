@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.Base64;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,5 +20,17 @@ public class CustomerDTO {
     private String phoneNumber;
     private Timestamp registeredDate;
     private byte[] image;
+    private String status;
+
+    public CustomerDTO(int id, String name, String email, String address, String phoneNumber, String registeredDate, String imageBase64, String status) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.registeredDate = Timestamp.valueOf(registeredDate);
+        this.image = Base64.getDecoder().decode(imageBase64);
+        this.status = status;
+    }
 
 }
