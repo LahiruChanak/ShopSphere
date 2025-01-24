@@ -10,7 +10,8 @@
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/category-manage.css"/>
 </head>
 <body>
@@ -21,8 +22,10 @@
         <h2 class="mb-4">Category Management</h2>
 
         <!-- Button to Open Add Modal -->
-        <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-            <i class="fas fa-plus me-2"></i>Add Category
+        <button type="button" class="btn btn-primary d-flex align-items-center rounded-5 mb-4 px-3"
+                data-bs-toggle="modal"
+                data-bs-target="#addCategoryModal">
+            <i class="hgi-stroke hgi-add-circle fs-4 me-2"></i>Add Category
         </button>
 
         <!-- Categories List -->
@@ -78,6 +81,7 @@
                            data-bs-toggle="modal"
                            data-bs-target="#confirm-delete-model"
                            data-category-id="<%= dto.getId() %>"
+                           data-category-name="<%= dto.getName() %>"
                            class="text-danger text-decoration-none ms-3">
                             <i class="hgi-stroke hgi-delete-02 fs-5" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                data-bs-title="Delete"></i>
@@ -128,25 +132,31 @@
                                     <div class="mb-3">
                                         <label for="updateIcon<%= dto.getId() %>" class="form-label">Icon</label>
                                         <div class="file-upload">
-                                            <input type="file" id="updateIcon<%= dto.getId() %>" name="icon"
-                                                   accept="image/*">
+                                            <input type="file"
+                                                   id="updateIcon<%= dto.getId() %>"
+                                                   name="icon"
+                                                   accept="image/*"
+                                                   data-preview="updateImagePreview<%= dto.getId() %>">
                                             <div class="file-upload-icon">
-                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <i class="hgi-stroke hgi-cloud-upload text-primary"></i>
                                             </div>
-                                            <p class="file-upload-label">Click or drag to upload an icon</p>
+                                            <p class="file-upload-label text-primary mb-0">Click or drag to upload an
+                                                image</p>
                                             <div id="updateImagePreview<%= dto.getId() %>" class="mt-2">
                                                 <% if (dto.getIcon() != null) { %>
                                                 <img src="data:image/png;base64,<%= dto.getIcon() %>"
                                                      class="preview-image" alt="Icon">
                                                 <% } %>
                                             </div>
+                                            <p class="text-muted small mt-2">Leave blank to keep the existing image.</p>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        <button type="button" class="btn btn-secondary rounded-5"
+                                                data-bs-dismiss="modal">Close
                                         </button>
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="fas fa-save me-2"></i>Update Category
+                                        <button type="submit" class="btn btn-primary rounded-5">
+                                            Update Category
                                         </button>
                                     </div>
                                 </form>
@@ -198,16 +208,18 @@
                                 <div class="file-upload">
                                     <input type="file" id="icon" name="icon" accept="image/*">
                                     <div class="file-upload-icon">
-                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <i class="hgi-stroke hgi-cloud-upload text-primary"></i>
                                     </div>
-                                    <p class="file-upload-label">Click or drag to upload an icon</p>
+                                    <p class="file-upload-label text-primary mb-0">Click or drag to upload an image</p>
                                     <div id="imagePreview" class="mt-2"></div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-2"></i>Save Category
+                                <button type="button" class="btn btn-secondary rounded-5" data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-primary rounded-5">
+                                    Save Category
                                 </button>
                             </div>
                         </form>
@@ -227,7 +239,11 @@
                         </div>
                         <h5 class="modal-title" id="confirmDeleteModalLabel">Delete Confirmation</h5>
                     </div>
-                    <div class="modal-body text-center">Are you sure you want to delete this category?</div>
+                    <div class="modal-body text-center">
+                        Are you sure you want to delete '
+                        <span id="deleteCategoryName" class="small text-danger"></span> '
+                        category?
+                    </div>
                     <div class="modal-footer d-flex justify-content-center gap-3">
                         <button type="button"
                                 class="btn btn-secondary bg-secondary-subtle text-black border-0 rounded-pill"

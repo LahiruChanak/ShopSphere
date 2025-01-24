@@ -113,28 +113,28 @@ public class CategoryManageServlet extends HttpServlet {
         }
 
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "UPDATE category SET name = ?, description = ?, status = ?, icon = ? WHERE id = ?";
-            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            String sql;
+            PreparedStatement ps;
+
+            if (imagePart != null && imagePart.getSize() > 0) {
+                sql = "UPDATE category SET name = ?, description = ?, status = ?, icon = ? WHERE id = ?";
+                ps = connection.prepareStatement(sql);
                 ps.setString(1, name);
                 ps.setString(2, description);
                 ps.setString(3, status);
-
-                InputStream imageInputStream = null;
-
-                if (imagePart != null) {
-                    imageInputStream = imagePart.getInputStream();
-                }
-
-                if (imageInputStream != null) {
-                    ps.setBlob(4, imageInputStream);
-                } else {
-                    ps.setNull(4, Types.BLOB);
-                }
-
+                ps.setBlob(4, imagePart.getInputStream());
                 ps.setInt(5, Integer.parseInt(id));
-                ps.executeUpdate();
+
+            } else {
+                sql = "UPDATE category SET name = ?, description = ?, status = ? WHERE id = ?";
+                ps = connection.prepareStatement(sql);
+                ps.setString(1, name);
+                ps.setString(2, description);
+                ps.setString(3, status);
+                ps.setInt(4, Integer.parseInt(id));
             }
 
+            ps.executeUpdate();
             response.sendRedirect("categories");
         } catch (Exception e) {
             e.printStackTrace();
