@@ -1,5 +1,6 @@
 <%@ page import="lk.ijse.shopsphere.dto.ProductDTO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="lk.ijse.shopsphere.dto.CategoryDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -92,7 +93,6 @@
                     </td>
                 </tr>
 
-                <!-- Update Modal for Each Row -->
                 <div class="modal fade" id="updateProductModal<%= dto.getItemCode() %>" tabindex="-1"
                      aria-labelledby="updateProductModalLabel<%= dto.getItemCode() %>" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -118,7 +118,7 @@
                                     <div class="mb-3">
                                         <label for="updateUnitPrice<%= dto.getItemCode() %>" class="form-label">Unit
                                             Price</label>
-                                        <input type="number" step="0.01" class="form-control"
+                                        <input type="number" min="0" step="0.5" class="form-control"
                                                id="updateUnitPrice<%= dto.getItemCode() %>" name="unitPrice"
                                                value="<%= dto.getUnitPrice() %>" required>
                                     </div>
@@ -131,16 +131,28 @@
                                     <div class="mb-3">
                                         <label for="updateQtyOnHand<%= dto.getItemCode() %>" class="form-label">Qty On
                                             Hand</label>
-                                        <input type="number" class="form-control"
+                                        <input type="number" min="0" step="1" class="form-control"
                                                id="updateQtyOnHand<%= dto.getItemCode() %>" name="qtyOnHand"
                                                value="<%= dto.getQtyOnHand() %>" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="updateCategoryId<%= dto.getItemCode() %>" class="form-label">Category
-                                            ID</label>
-                                        <input type="number" class="form-control"
-                                               id="updateCategoryId<%= dto.getItemCode() %>" name="categoryId"
-                                               value="<%= dto.getCategoryId() %>" required>
+                                        <label for="updateCategoryId<%= dto.getItemCode() %>" class="form-label">Category</label>
+                                        <select class="form-select" id="updateCategoryId<%= dto.getItemCode() %>"
+                                                name="categoryId" required>
+                                            <option value="" disabled>Select a category</option>
+                                            <%
+                                                List<CategoryDTO> categoryList = (List<CategoryDTO>) request.getAttribute("categories");
+                                                if (categoryList != null && !categoryList.isEmpty()) {
+                                                    for (CategoryDTO category : categoryList) {
+                                                        String selected = (category.getId().equals(String.valueOf(dto.getCategoryId()))) ? "selected" : "";
+                                            %>
+                                            <option value="<%= category.getId() %>" <%= selected %>><%= category.getName() %>
+                                            </option>
+                                            <%
+                                                    }
+                                                }
+                                            %>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="updateImage<%= dto.getItemCode() %>"
@@ -178,6 +190,7 @@
                         </div>
                     </div>
                 </div>
+
                 <% } %>
                 <% } else { %>
                 <tr>
@@ -208,7 +221,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="unitPrice" class="form-label">Unit Price</label>
-                                <input type="number" step="0.01" class="form-control" id="unitPrice" name="unitPrice"
+                                <input type="number" min="0" step="0.5" class="form-control" id="unitPrice"
+                                       name="unitPrice"
                                        required>
                             </div>
                             <div class="mb-3">
@@ -217,11 +231,25 @@
                             </div>
                             <div class="mb-3">
                                 <label for="qtyOnHand" class="form-label">Qty On Hand</label>
-                                <input type="number" class="form-control" id="qtyOnHand" name="qtyOnHand" required>
+                                <input type="number" min="0" step="1" class="form-control" id="qtyOnHand"
+                                       name="qtyOnHand" required>
                             </div>
                             <div class="mb-3">
-                                <label for="categoryId" class="form-label">Category ID</label>
-                                <input type="number" class="form-control" id="categoryId" name="categoryId" required>
+                                <label for="categoryId" class="form-label">Category</label>
+                                <select class="form-select" id="categoryId" name="categoryId" required>
+                                    <option value="" disabled selected>Select a category</option>
+                                    <%
+                                        List<CategoryDTO> categoryList = (List<CategoryDTO>) request.getAttribute("categories");
+                                        if (categoryList != null && !categoryList.isEmpty()) {
+                                            for (CategoryDTO category : categoryList) {
+                                    %>
+                                    <option value="<%= category.getId() %>"><%= category.getName() %>
+                                    </option>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Image</label>

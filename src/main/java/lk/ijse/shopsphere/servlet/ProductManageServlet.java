@@ -19,6 +19,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+
+import lk.ijse.shopsphere.dto.CategoryDTO;
 import lk.ijse.shopsphere.dto.ProductDTO;
 
 @WebServlet({"/ProductManage", "/products"})
@@ -176,10 +178,11 @@ public class ProductManageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<ProductDTO> productList = new ArrayList<>();
+        List<CategoryDTO> categoryList = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT itemCode, name, unitPrice, description, qtyOnHand, image, categoryId FROM product";
-            try (PreparedStatement ps = connection.prepareStatement(sql);
+            String productSql = "SELECT itemCode, name, unitPrice, description, qtyOnHand, image, categoryId FROM product";
+            try (PreparedStatement ps = connection.prepareStatement(productSql);
                  ResultSet rs = ps.executeQuery()) {
 
                 while (rs.next()) {
@@ -195,12 +198,25 @@ public class ProductManageServlet extends HttpServlet {
                     productList.add(new ProductDTO(itemCode, name, unitPrice, description, qtyOnHand, imageBase64, categoryId));
                 }
             }
+
+            String categorySql = "SELECT id, name FROM category";
+            try (PreparedStatement ps = connection.prepareStatement(categorySql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+
+                    categoryList.add(new CategoryDTO(String.valueOf(id), name, null, null, null));
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServletException("Error while fetching products", e);
+            throw new ServletException("Error while fetching data", e);
         }
 
         request.setAttribute("products", productList);
+        request.setAttribute("categories", categoryList);
         request.getRequestDispatcher("/product-manage.jsp").forward(request, response);
     }
 }
