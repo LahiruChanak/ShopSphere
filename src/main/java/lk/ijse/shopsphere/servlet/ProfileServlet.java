@@ -65,7 +65,23 @@ public class ProfileServlet extends HttpServlet {
         Part filePart = request.getPart("profileImage");
 
         if (filePart != null && filePart.getSize() > 0) {
-            try (InputStream fileContent = filePart.getInputStream(); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            String contentType = filePart.getContentType();
+            long fileSize = filePart.getSize();
+
+            if (!contentType.startsWith("image/")) {
+                request.setAttribute("errorMessage", "Only image files are allowed.");
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
+                return;
+            }
+
+            if (fileSize > 5 * 1024 * 1024) {
+                request.setAttribute("errorMessage", "Image file size must be less than 5MB.");
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
+                return;
+            }
+
+            try (InputStream fileContent = filePart.getInputStream();
+                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
                 byte[] buffer = new byte[4096];
                 int bytesRead;
                 while ((bytesRead = fileContent.read(buffer)) != -1) {
@@ -76,8 +92,8 @@ public class ProfileServlet extends HttpServlet {
             }
         } else {
             request.setAttribute("errorMessage", "Please select an image to upload.");
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
         }
-        response.sendRedirect("index.jsp");
     }
 
     private void updateImageInDatabase(Connection connection, String userEmail, byte[] imageBytes, HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -87,13 +103,15 @@ public class ProfileServlet extends HttpServlet {
             statement.setString(2, userEmail);
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-                // Update image in session after successful update
+
                 request.getSession().setAttribute("image", imageBytes);
                 request.setAttribute("successMessage", "Profile image updated successfully.");
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
+//                request.getRequestDispatcher("profile.jsp").forward(request, response);
+                response.sendRedirect("index.jsp");
             } else {
                 request.setAttribute("errorMessage", "Failed to update profile image.");
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
+//                request.getRequestDispatcher("profile.jsp").forward(request, response);
+                response.sendRedirect("index.jsp");
             }
         }
     }

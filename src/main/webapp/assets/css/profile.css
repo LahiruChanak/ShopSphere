@@ -12,7 +12,7 @@
     object-fit: cover;
     border-radius: 50%;
     border: 2px solid #aaa !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
 .file-input-container {
@@ -22,12 +22,8 @@
     background: #fff;
     border-radius: 50%;
     padding: 5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3) !important;
     cursor: pointer;
-}
-
-.file-input-container input[type="file"] {
-    display: none;
 }
 
 .file-input-container label {
@@ -47,6 +43,10 @@
     border-radius: 20px !important;
     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3) !important;
     transition: transform 0.3s ease;
+}
+
+.profile-container {
+    padding-bottom: 55px !important;
 }
 
 .btn-primary:hover {

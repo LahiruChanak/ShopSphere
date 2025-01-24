@@ -41,41 +41,41 @@
         <% } %>
 
         <div class="welcome-section mb-5 mt-4">
-            <h1 class="h3">Welcome, <span class="userName"> <%= session.getAttribute("fullName") %> </span> </h1>
+            <h1 class="h3">Welcome, <span class="userName"> <%= session.getAttribute("fullName") %> </span></h1>
             <div id="current-time" class="text-muted ms-3"></div>
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4 pb-3">
             <div class="col-md-4">
                 <%-- Profile Image Section --%>
                 <div class="d-flex justify-content-center">
-                    <div class="card w-auto rounded-5">
-                        <div class="card-body text-center px-5 py-3">
-                            <div class="profile-image-container mb-3">
+                    <div class="card profile-container w-auto rounded-5">
+                        <div class="card-body text-center px-5 pt-3">
+                            <div class="profile-image-container">
                                 <img src="
-                                <% if (session.getAttribute("image") != null) { %>
-                                data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString((byte[]) session.getAttribute("image")) %>
+                                <% if (customer.getImage() != null ) { %>
+                                data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString((byte[]) customer.getImage()) %>
                                 <% } else { %>
                                 <%= request.getContextPath() %>/assets/images/default-profile.png
                                 <% } %>
                                 " class="profile-image" alt="Profile Picture"/>
-                                <div class="file-input-container">
-                                    <label for="profileImage">
-                                        <i class="hgi-stroke hgi-camera-01 fs-5"></i>
-                                    </label>
-                                    <input type="file" id="profileImage" name="profileImage" accept="image/*"
-                                           class="form-control">
-                                </div>
+
+                                <form action="ProfileServlet?action=updateImage" method="post"
+                                      enctype="multipart/form-data">
+                                    <div class="file-input-container">
+                                        <label for="profileImage">
+                                            <i class="hgi-stroke hgi-camera-01 fs-5"></i>
+                                        </label>
+                                        <input type="file" id="profileImage" name="profileImage" accept="image/*"
+                                               class="form-control d-none" required>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary d-flex align-items-center mt-3"><i
+                                                class="hgi-stroke hgi-cloud-upload fs-5 me-2"></i>Sync
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <form action="ProfileServlet?action=updateImage" method="post"
-                                  enctype="multipart/form-data">
-                                <div class="d-flex justify-content-center">
-                                    <button type="submit"
-                                            class="btn btn-primary px-4 d-flex align-items-center justify-content-center">
-                                        <i class="hgi-stroke hgi-image-upload fs-5 me-2"></i>Update Image
-                                    </button>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -129,17 +129,17 @@
                             <div class="mb-4">
                                 <label for="email" class="form-label">Email Address</label>
                                 <input type="email" id="email" name="email" class="form-control"
-                                       value="<%= session.getAttribute("email") %>" required/>
+                                       value="<%= customer != null ? customer.getEmail() : "" %>" required/>
                             </div>
                             <div class="mb-4">
                                 <label for="phoneNumber" class="form-label">Phone Number</label>
                                 <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
-                                       value="<%= session.getAttribute("phoneNumber") %>"/>
+                                       value="<%= customer != null ? customer.getPhoneNumber() : "" %>"/>
                             </div>
                             <div class="mb-4">
                                 <label for="address" class="form-label">Address</label>
                                 <input type="text" id="address" name="address" class="form-control"
-                                       value="<%= session.getAttribute("address") %>"/>
+                                       value="<%= customer != null ? customer.getAddress() : "" %>"/>
                             </div>
                             <div class="d-flex justify-content-end align-items-center">
                                 <button type="submit" class="btn btn-primary d-flex align-items-center">
