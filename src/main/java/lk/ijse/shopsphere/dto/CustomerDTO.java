@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.Base64;
 
 @AllArgsConstructor
 @NoArgsConstructor
