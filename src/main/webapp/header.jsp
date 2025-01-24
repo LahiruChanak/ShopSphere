@@ -1,4 +1,5 @@
 <%@ page import="java.util.Base64" %>
+<%@ page import="lk.ijse.shopsphere.dto.CustomerDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,6 +16,10 @@
     <script rel="stylesheet" src="${pageContext.request.contextPath}/assets/css/common.css"></script>
 </head>
 <body>
+<%
+    CustomerDTO user = (CustomerDTO) request.getAttribute("customer");
+%>
+
 <header class="bg-white border-bottom">
     <div class="container py-3">
         <div class="row justify-content-center align-items-center gap-lg-2">
@@ -80,16 +85,14 @@
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <div>
-                            <% if (session.getAttribute("image") != null) { %>
-                            <img
-                                    src="data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString((byte[]) session.getAttribute("image")) %>"
-                                    class="header-profile"
-                                    alt="Profile Picture"/>
-                            <% } else { %>
-                            <i class="hgi-stroke hgi-user-circle fs-3"></i>
-                            <% } %>
+                            <img src="
+        <% if (user != null && user.getImage() != null) { %>
+            data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(user.getImage()) %>
+        <% } else { %>
+            <%= request.getContextPath() %>/assets/images/default-profile.png
+        <% } %>
+    " class="header-profile" alt="Profile Picture"/>
                         </div>
-
                         <div class="dropdown">
                             <a href="${pageContext.request.contextPath}/ProfileServlet"
                                class="text-decoration-none small auth-link">
@@ -127,7 +130,7 @@
                                         </a>
                                     </div>
                                     <div class="mb-3">
-                                        <a href="${pageContext.request.contextPath}/profile.jsp" class="nav-link">
+                                        <a href="${pageContext.request.contextPath}/ProfileServlet" class="nav-link">
                                             <i class="hgi-stroke hgi-user-circle me-2 fs-5 align-middle"></i>
                                             My Account
                                         </a>
