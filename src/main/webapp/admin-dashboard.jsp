@@ -25,16 +25,16 @@
             <h2 class="text-white text-center mt-2">Admin</h2>
         </div>
         <nav class="sidebar-nav">
-            <a href="customer-manage.jsp">
+            <a href="customers">
                 <i class="hgi-stroke hgi-user-multiple-02 fs-5 align-middle me-2"></i>Customers
             </a>
             <a href="order-manage.jsp">
                 <i class="hgi-stroke hgi-shopping-cart-check-in-02 fs-5 align-middle"></i> Orders
             </a>
-            <a href="product-manage.jsp">
+            <a href="products">
                 <i class="hgi-stroke hgi-package fs-5 align-middle"></i> Products
             </a>
-            <a href="category-manage.jsp">
+            <a href="categories">
                 <i class="hgi-stroke hgi-arrange fs-5 align-middle"></i> Categories
             </a>
             <a href="settings.jsp">
