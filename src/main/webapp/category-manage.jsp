@@ -234,8 +234,8 @@
             <div class="modal-dialog">
                 <div class="modal-content py-3">
                     <div class="modal-header d-flex flex-column align-items-center">
-                        <div class="mb-3 py-2 px-2 bg-danger-subtle rounded-circle d-flex text-danger fs-4">
-                            <i class="fas fa-exclamation-triangle"></i>
+                        <div class="mb-3 bg-danger-subtle rounded-circle d-flex align-items-center justify-content-center text-danger fs-4 delete-modal-icon">
+                            <i class="hgi-stroke hgi-alert-02 fs-4"></i>
                         </div>
                         <h5 class="modal-title" id="confirmDeleteModalLabel">Delete Confirmation</h5>
                     </div>
