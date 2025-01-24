@@ -20,6 +20,10 @@
 
 <%@ include file="header.jsp" %>
 
+<%
+    CustomerDTO customer = (CustomerDTO) request.getAttribute("customer");
+%>
+
 <main>
     <div class="container my-4">
         <%-- Success and Error Messages --%>
@@ -120,7 +124,7 @@
                             <div class="mb-4">
                                 <label for="fullName" class="form-label">Full Name</label>
                                 <input type="text" id="fullName" name="fullName" class="form-control"
-                                       value="<%= session.getAttribute("fullName") %>" required/>
+                                       value="<%= customer != null ? customer.getName() : "" %>" required/>
                             </div>
                             <div class="mb-4">
                                 <label for="email" class="form-label">Email Address</label>

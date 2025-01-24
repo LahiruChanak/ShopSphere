@@ -22,11 +22,11 @@ public class ProfileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
-        Integer customerId = (Integer) session.getAttribute("customerId");
+        String email = (String) request.getSession().getAttribute("email");
 
         try (Connection connection = DBConnection.getConnection()) {
-            if (customerId != null) {
-                CustomerDTO customer = getCustomerDetails(connection, customerId);
+            if (email != null) {
+                CustomerDTO customer = getCustomerDetails(connection, email);
                 session.setAttribute("fullName", customer.getName());
                 session.setAttribute("email", customer.getEmail());
                 session.setAttribute("phoneNumber", customer.getPhoneNumber());

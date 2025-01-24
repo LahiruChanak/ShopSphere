@@ -50,6 +50,9 @@ public class AuthServlet extends HttpServlet {
                                         session.setAttribute("customerId", rs.getInt("id"));
                                         session.setAttribute("fullName", rs.getString("name"));
                                         session.setAttribute("email", rs.getString("email"));
+
+                                        request.getSession().setAttribute("email", rs.getString("email"));
+
                                         // Fetch and store other user details in session (if needed)
                                         response.sendRedirect("pages/homepage.jsp");
                                     } else {

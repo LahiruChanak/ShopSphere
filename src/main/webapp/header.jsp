@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="dropdown">
-                            <a href="${pageContext.request.contextPath}/profile.jsp"
+                            <a href="${pageContext.request.contextPath}/ProfileServlet"
                                class="text-decoration-none small auth-link">
                                 <span class="text-black">Welcome</span><br/>
                                 <span class="fw-bold nav-link"> <%= session.getAttribute("fullName") %> </span>
