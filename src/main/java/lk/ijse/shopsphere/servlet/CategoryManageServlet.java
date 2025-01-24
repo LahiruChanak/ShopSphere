@@ -21,9 +21,9 @@ import java.util.Base64;
 import java.util.List;
 import lk.ijse.shopsphere.dto.CategoryDTO;
 
-@WebServlet({"/saveCategory", "/categories"}) // Map both URLs to this servlet
+@WebServlet({"/CategoryManage", "/categories"})
 @MultipartConfig(maxFileSize = 16177215)
-public class CategoryServlet extends HttpServlet {
+public class CategoryManageServlet extends HttpServlet {
 
     private DataSource dataSource;
 
@@ -38,7 +38,29 @@ public class CategoryServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // ... (Existing doPost code remains unchanged)
+        String action = request.getParameter("action");
+
+        if (action == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action parameter is required");
+            return;
+        }
+
+        switch (action) {
+            case "save":
+                saveCategory(request, response);
+                break;
+            case "update":
+                updateCategory(request, response);
+                break;
+            case "delete":
+                deleteCategory(request, response);
+                break;
+            default:
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
+        }
+    }
+
+    private void saveCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String status = request.getParameter("status");
@@ -64,17 +86,81 @@ public class CategoryServlet extends HttpServlet {
 
                 if (imageInputStream != null) {
                     ps.setBlob(4, imageInputStream);
-                }else {
+                } else {
                     ps.setNull(4, Types.BLOB);
                 }
 
                 ps.executeUpdate();
             }
 
-            response.sendRedirect("categories"); // Redirect to the categories list
+            response.sendRedirect("categories");
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException("Error while saving category", e);
+        }
+    }
+
+    private void updateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String status = request.getParameter("status");
+        Part imagePart = request.getPart("icon");
+
+        if (id == null || id.trim().isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Category ID is required");
+            return;
+        }
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "UPDATE category SET name = ?, description = ?, status = ?, icon = ? WHERE id = ?";
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, name);
+                ps.setString(2, description);
+                ps.setString(3, status);
+
+                InputStream imageInputStream = null;
+
+                if (imagePart != null) {
+                    imageInputStream = imagePart.getInputStream();
+                }
+
+                if (imageInputStream != null) {
+                    ps.setBlob(4, imageInputStream);
+                } else {
+                    ps.setNull(4, Types.BLOB);
+                }
+
+                ps.setInt(5, Integer.parseInt(id));
+                ps.executeUpdate();
+            }
+
+            response.sendRedirect("categories");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Error while updating category", e);
+        }
+    }
+
+    private void deleteCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+
+        if (id == null || id.trim().isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Category ID is required");
+            return;
+        }
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "DELETE FROM category WHERE id = ?";
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, Integer.parseInt(id));
+                ps.executeUpdate();
+            }
+
+            response.sendRedirect("categories");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Error while deleting category", e);
         }
     }
 
@@ -104,6 +190,6 @@ public class CategoryServlet extends HttpServlet {
         }
 
         request.setAttribute("categories", categoryList);
-        request.getRequestDispatcher("/category.jsp").forward(request, response);
+        request.getRequestDispatcher("/category-manage.jsp").forward(request, response);
     }
 }
