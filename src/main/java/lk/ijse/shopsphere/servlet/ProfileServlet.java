@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.Base64;
 
 @WebServlet("/ProfileServlet")
 @MultipartConfig(maxFileSize = 10 * 1024 * 1024) // 10MB
@@ -217,7 +218,11 @@ public class ProfileServlet extends HttpServlet {
                     customer.setEmail(resultSet.getString("email"));
                     customer.setAddress(resultSet.getString("address"));
                     customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                    customer.setImage(resultSet.getBytes("image"));
+
+                    byte[] imageBytes = resultSet.getBytes("image");
+                    String imageBase64 = (imageBytes != null) ? Base64.getEncoder().encodeToString(imageBytes) : null;
+                    customer.setImage(imageBase64);
+
                     return customer;
                 }
             }

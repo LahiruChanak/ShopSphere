@@ -53,12 +53,12 @@
                         <div class="card-body text-center px-5 pt-3">
                             <div class="profile-image-container">
                                 <img src="
-                                <% if (customer.getImage() != null ) { %>
-                                data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString((byte[]) customer.getImage()) %>
-                                <% } else { %>
-                                <%= request.getContextPath() %>/assets/images/default-profile.png
-                                <% } %>
-                                " class="profile-image" alt="Profile Picture"/>
+                <% if (customer.getImage() != null && !customer.getImage().isEmpty()) { %>
+                data:image/jpeg;base64,<%= customer.getImage() %>
+                <% } else { %>
+                <%= request.getContextPath() %>/assets/images/default-profile.png
+                <% } %>
+                " class="profile-image" alt="Profile Picture"/>
 
                                 <form action="ProfileServlet?action=updateImage" method="post"
                                       enctype="multipart/form-data">
@@ -70,8 +70,8 @@
                                                class="form-control d-none" required>
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-primary d-flex align-items-center mt-3"><i
-                                                class="hgi-stroke hgi-cloud-upload fs-5 me-2"></i>Sync
+                                        <button type="submit" class="btn btn-primary d-flex align-items-center mt-3">
+                                            <i class="hgi-stroke hgi-cloud-upload fs-5 me-2"></i>Sync
                                         </button>
                                     </div>
                                 </form>

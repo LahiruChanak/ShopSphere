@@ -11,6 +11,7 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"/>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customer-manage.css"/>
 </head>
 <body>
@@ -49,7 +50,7 @@
                         <% if (dto.getImage() != null) { %>
                         <img src="data:image/png;base64,<%= dto.getImage() %>" class="preview-image" alt="Image">
                         <% } else { %>
-                        <span class="text-muted">No Image</span>
+                        <i class="hgi-stroke hgi-image-not-found-01 fs-3 text-muted"></i>
                         <% } %>
                     </td>
                     <td><%= dto.getName() %>
@@ -74,7 +75,7 @@
                            data-bs-toggle="modal"
                            data-bs-target="#confirm-status-model"
                            data-customer-id="<%= dto.getId() %>"
-                           data-customer-name="<%= dto.getEmail() %>"
+                           data-customer-email="<%= dto.getEmail() %>"
                            data-customer-status="<%= dto.getStatus() %>"
                            class="text-decoration-none text-success">
                             <i class="hgi-stroke hgi-toggle-on fs-3"
@@ -90,7 +91,7 @@
                            data-bs-toggle="modal"
                            data-bs-target="#confirm-status-model"
                            data-customer-id="<%= dto.getId() %>"
-                           data-customer-name="<%= dto.getEmail() %>"
+                           data-customer-email="<%= dto.getEmail() %>"
                            data-customer-status="<%= dto.getStatus() %>"
                            class="text-decoration-none text-danger">
                             <i class="hgi-stroke hgi-toggle-off fs-3"

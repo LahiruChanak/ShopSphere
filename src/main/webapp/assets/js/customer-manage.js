@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     confirmStatusModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget; // Button that triggered the modal
         var customerId = button.getAttribute('data-customer-id'); // Get customer ID
-        var name = button.getAttribute('data-customer-name'); // Get customer name
+        var name = button.getAttribute('data-customer-email'); // Get customer name
         var status = button.getAttribute('data-customer-status'); // Get current status
 
         // Update modal content
