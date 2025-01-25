@@ -71,20 +71,27 @@ public class AuthServlet extends HttpServlet {
                         }
 
                         // Customer login
-                        String query = "SELECT id, name, email, password FROM customer WHERE email = ?";
+                        String query = "SELECT id, name, email, password, status FROM customer WHERE email = ?";
                         try (PreparedStatement stmt = connection.prepareStatement(query)) {
                             stmt.setString(1, email);
 
                             try (ResultSet rs = stmt.executeQuery()) {
                                 if (rs.next()) {
                                     String hashedPassword = rs.getString("password");
+                                    String status = rs.getString("status");
+
+                                    if (!"Active".equalsIgnoreCase(status)) {
+                                        request.setAttribute("signInPasswordError", "Your account is deactivated. Please contact support.");
+                                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                                        return;
+                                    }
+
                                     if (BCrypt.checkpw(password, hashedPassword)) {
                                         HttpSession session = request.getSession();
                                         session.setAttribute("customerId", rs.getInt("id"));
                                         session.setAttribute("fullName", rs.getString("name"));
                                         session.setAttribute("email", rs.getString("email"));
 
-                                        request.getSession().setAttribute("email", rs.getString("email"));
                                         response.sendRedirect("pages/homepage.jsp");
                                     } else {
                                         request.setAttribute("signInPasswordError", "Email or Password is incorrect.");
