@@ -20,22 +20,45 @@
 <main class="container pt-4 pb-5 d-flex flex-column gap-5">
     <nav class="nav justify-content-start align-items-center">
         <div class="dropdown-container">
-            <div class="dropdown bg-secondary-subtle rounded-5 py-2 px-3 z-3">
-                <a href="#" class="text-decoration-none text-black fw-medium all-categories">
+            <div class="dropdown bg-secondary-subtle rounded-5 py-2 px-3 z-3" style="width: 200px;"> <!-- Fixed width -->
+                <a href="#" class="text-decoration-none text-black fw-medium all-categories d-flex justify-content-between align-items-center">
+                <span>
                     <i class="hgi-stroke hgi-menu-square fs-5 me-2 align-middle"></i>
-                    All Categories
-                    <i class="hgi-stroke hgi-arrow-down-01 fs-5 align-middle ms-3 all-categories-icon"></i>
+                    <%
+                        String selectedCategoryName = "All Categories"; // Default text
+                        String categoryId = request.getParameter("categoryId");
+                        if (categoryId != null && !categoryId.isEmpty()) {
+                            List<CategoryDTO> categories = (List<CategoryDTO>) request.getAttribute("categories");
+                            if (categories != null && !categories.isEmpty()) {
+                                for (CategoryDTO category : categories) {
+                                    if (category.getId().equals(categoryId)) {
+                                        selectedCategoryName = category.getName();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    %>
+                    <%= selectedCategoryName %>
+                </span>
+                    <i class="hgi-stroke hgi-arrow-down-01 fs-5 align-middle all-categories-icon"></i>
                 </a>
             </div>
 
             <ul class="all-categories-menu bg-secondary-subtle rounded-5 rounded-bottom-4 z-2">
+                <li class="my-2">
+                    <a class="dropdown-item" href="home">
+                        <i class="hgi-stroke hgi-shirt-01 fs-5 me-2 align-middle"></i>
+                        Show All
+                    </a>
+                </li>
                 <%
                     List<CategoryDTO> categories = (List<CategoryDTO>) request.getAttribute("categories");
                     if (categories != null && !categories.isEmpty()) {
                         for (CategoryDTO category : categories) {
                 %>
                 <li class="my-2">
-                    <a class="dropdown-item" href="products?categoryId=<%= category.getId() %>">
+                    <a class="dropdown-item" href="home?categoryId=<%= category.getId() %>">
                         <i class="hgi-stroke hgi-shirt-01 fs-5 me-2 align-middle"></i>
                         <%= category.getName() %>
                     </a>

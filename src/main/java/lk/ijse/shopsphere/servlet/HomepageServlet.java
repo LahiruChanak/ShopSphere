@@ -34,13 +34,54 @@ public class HomepageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String categoryId = request.getParameter("categoryId");
         List<CategoryDTO> categories = fetchCategories();
-        List<ProductDTO> products = fetchProducts();
+        List<ProductDTO> products;
+
+        if (categoryId != null && !categoryId.isEmpty()) {
+            products = fetchProductsByCategory(categoryId);
+        } else {
+            products = fetchProducts();
+        }
 
         request.setAttribute("categories", categories);
         request.setAttribute("products", products);
 
         request.getRequestDispatcher("/homepage.jsp").forward(request, response);
+    }
+
+    private List<ProductDTO> fetchProductsByCategory(String categoryId) {
+        List<ProductDTO> products = new ArrayList<>();
+        String query = "SELECT * FROM product p JOIN category c ON p.categoryId = c.id WHERE c.status = 'Active' AND c.id = ? LIMIT 10";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, Integer.parseInt(categoryId));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ProductDTO product = new ProductDTO();
+                    product.setItemCode(rs.getInt("itemCode"));
+                    product.setName(rs.getString("name"));
+                    product.setUnitPrice(rs.getDouble("unitPrice"));
+                    product.setDescription(rs.getString("description"));
+                    product.setQtyOnHand(rs.getInt("qtyOnHand"));
+
+                    byte[] imageBytes = rs.getBytes("image");
+                    if (imageBytes != null) {
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                        product.setImage(base64Image);
+                    }
+
+                    product.setCategoryId(rs.getInt("categoryId"));
+                    products.add(product);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error fetching products by category: " + e.getMessage());
+        }
+
+        return products;
     }
 
     private List<CategoryDTO> fetchCategories() {
