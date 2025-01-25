@@ -7,8 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.shopsphere.dto.CartDTO;
 import lk.ijse.shopsphere.dto.CartDetailDTO;
-import lk.ijse.shopsphere.dto.CustomerDTO;
 import lk.ijse.shopsphere.dto.ProductDTO;
+import lk.ijse.shopsphere.util.CartService;
+import lk.ijse.shopsphere.util.ProductService;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,22 +23,40 @@ import javax.sql.DataSource;
 @WebServlet("/cart")
 public class CartServlet extends HttpServlet {
 
+    private CartService cartService;
+    private ProductService productService;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        CustomerDTO customer = (CustomerDTO) request.getSession().getAttribute("customer");
-        if (customer == null) {
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
+        // Check if user is logged in
+        String userId = (String) request.getSession().getAttribute("userId");
+        if (userId == null) {
+            response.sendRedirect("index.jsp");
             return;
         }
 
-        CartDTO cartDTO = getCartDetails(customer.getId());
-        if (cartDTO == null) {
-            response.sendRedirect(request.getContextPath() + "/error.jsp");
-            return;
+        // Fetch the cart for the user
+        CartDTO cart = (CartDTO) cartService.getCartDetailsByUserId(userId);
+        if (cart == null) {
+            // If no cart exists, create a new one
+            cart = new CartDTO();
+            cart.setCustomerId(userId);
+            cart.setCartDetails(new ArrayList<>());
         }
-        request.setAttribute("cartDTO", cartDTO);
-        request.getRequestDispatcher("/pages/cart.jsp").forward(request, response);
+
+        // Fetch product details for each item in the cart
+        List<CartDetailDTO> cartDetails = cart.getCartDetails();
+        for (CartDetailDTO detail : cartDetails) {
+            ProductDTO product = productService.getProductById(detail.getItemCode());
+            detail.setProduct(product);
+        }
+
+        // Set cart and cart details as request attributes
+        request.setAttribute("cart", cart);
+        request.setAttribute("cartDetails", cartDetails);
+
+        // Forward to the cart page
+        request.getRequestDispatcher("/cart.jsp").forward(request, response);
     }
 
     private CartDTO getCartDetails(int customerId) {
@@ -87,7 +106,7 @@ public class CartServlet extends HttpServlet {
         double deliveryCharges = 350.00;
         double total = subTotal + deliveryCharges;
 
-        cartDTO.setCartItems(cartItems);
+        cartDTO.setCartDetails(cartItems);
         cartDTO.setSubTotal(subTotal);
         cartDTO.setDeliveryCharges(deliveryCharges);
         cartDTO.setTotal(total);

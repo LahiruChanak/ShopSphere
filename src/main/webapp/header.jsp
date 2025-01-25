@@ -167,7 +167,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="${pageContext.request.contextPath}/pages/cart.jsp" class="nav-link position-relative">
+                    <a href="${pageContext.request.contextPath}/cart.jsp" class="nav-link position-relative">
                         <i class="hgi-stroke hgi-shopping-basket-01 fs-3"></i>
                         <span class="position-absolute translate-middle-y mt-1 badge rounded-pill cart-count"
                               id="cart-count">
@@ -180,6 +180,10 @@
     </div>
 </header>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous">
+</script>
 <script src="${pageContext.request.contextPath}/assets/js/header.js"></script>
 </body>
 </html>

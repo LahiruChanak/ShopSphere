@@ -9,15 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class CartDetailDTO {
 
+    private int cartDetailId;
+    private int cartId;
     private int itemCode;
     private int quantity;
+    private String orderedSize;
+    private String color;
     private ProductDTO product;
 
-    public Object getOrderedSize() {
-        return null;
-    }
-
-    public Object getColor() {
-        return null;
-    }
 }

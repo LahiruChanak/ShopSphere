@@ -110,9 +110,13 @@
                     </div>
                 </div>
 
-                <div class="d-flex gap-3 mb-2">
-                    <button class="btn btn-dark add-to-cart-btn rounded-5 w-100">Add to cart</button>
-                    <button class="btn btn-outline-dark w-100 rounded-5 buy-now-btn">Buy now</button>
+                <div class="d-flex gap-3 mb-4">
+                    <button class="btn add-to-cart-btn w-100" onclick="addToCart(<%= product.getItemCode() %>, '<%= product.getName() %>', <%= product.getUnitPrice() %>, '<%= product.getImage() %>')">
+                        Add to Cart
+                    </button>
+                    <button class="btn btn-outline-dark w-100 buy-now-btn">
+                        <a href="${pageContext.request.contextPath}/order.jsp" class="text-decoration-none text-black">Buy now</a>
+                    </button>
                 </div>
                 <% } %>
             </div>
@@ -145,6 +149,49 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous">
 </script>
+<script src="${pageContext.request.contextPath}/assets/js/jquery-3.7.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/product.js"></script>
+<script>
+    function addToCart(itemCode, name, unitPrice, image) {
+        console.log("Add to Cart button clicked!");
+        console.log("Item Code:", itemCode);
+        console.log("Name:", name);
+        console.log("Unit Price:", unitPrice);
+        console.log("Image:", image);
+
+        const quantity = 1;
+        const size = document.querySelector('.size-btn.active')?.innerText || 'S';
+        const color = document.querySelector('.color-option.active')?.style.backgroundColor || '#6c71c4';
+
+        const data = {
+            itemCode: itemCode,
+            name: name,
+            unitPrice: unitPrice,
+            quantity: quantity,
+            size: size,
+            color: color,
+            image: image
+        };
+
+        fetch('add-to-cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Product added to cart!');
+                } else {
+                    alert('Failed to add product to cart.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
 </body>
 </html>

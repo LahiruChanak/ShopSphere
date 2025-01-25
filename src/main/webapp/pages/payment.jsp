@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/common.css"/>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="../header.jsp" %>
 
 <main>
 <div class="container py-5">
@@ -153,7 +153,7 @@
 </div>
 </main>
 
-<%@ include file="footer.jsp" %>
+<%@ include file="../footer.jsp" %>
 
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

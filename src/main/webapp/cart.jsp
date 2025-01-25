@@ -92,7 +92,7 @@
                         <span class="total-amount">Rs. <%= String.format("%.2f", subTotal) %></span>
                     </div>
                     <button class="proceed-btn">
-                        <a href="${pageContext.request.contextPath}/pages/order.jsp" class="nav-link text-white">
+                        <a href="${pageContext.request.contextPath}/order.jsp" class="nav-link text-white">
                             Proceed to Checkout </a>
                     </button>
                 </div>

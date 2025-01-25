@@ -154,3 +154,12 @@
 .proceed-pay-btn:hover {
   background-color: #fe3a2c;
 }
+
+input, select {
+  box-shadow: none !important;
+}
+
+input:focus, select:focus {
+  box-shadow: none !important;
+  border-color: #fe5f55 !important;
+}

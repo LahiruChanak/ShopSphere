@@ -28,7 +28,7 @@
             <a href="customers">
                 <i class="hgi-stroke hgi-user-multiple-02 fs-5 align-middle me-2"></i>Customers
             </a>
-            <a href="order-manage.jsp">
+            <a href="orders">
                 <i class="hgi-stroke hgi-shopping-cart-check-in-02 fs-5 align-middle"></i> Orders
             </a>
             <a href="products">

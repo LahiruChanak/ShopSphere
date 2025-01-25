@@ -11,6 +11,7 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"/>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin-header.css"/>
 </head>
 <body>
@@ -46,7 +47,7 @@
                         <a href="#" class="d-flex align-items-center text-decoration-none text-dark">
                             <img src="
                                 <% if (user != null && user.getImage() != null) { %>
-                                    data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(user.getImage()) %>
+                                    data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(user.getImage().getBytes()) %>
                                 <% } else { %>
                                     ${pageContext.request.contextPath}/assets/images/default-profile.png
                                 <% } %>
@@ -71,7 +72,7 @@
                     </div>
 
                     <!-- Cart -->
-                    <a href="${pageContext.request.contextPath}/pages/cart.jsp" class="nav-link position-relative">
+                    <a href="${pageContext.request.contextPath}/cart.jsp" class="nav-link position-relative">
                         <i class="hgi-stroke hgi-shopping-basket-01 fs-3"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count">
                             0

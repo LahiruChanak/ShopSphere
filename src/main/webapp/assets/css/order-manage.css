@@ -78,3 +78,8 @@ select {
 select:focus {
     border: 1px solid #0d6efd !important;
 }
+
+table > tbody > tr > td{
+    padding: 0.8rem 0 !important;
+    color: #5a5a5a !important;
+}

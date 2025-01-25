@@ -11,7 +11,9 @@ import java.util.List;
 @Data
 public class CartDTO {
 
-    private List<CartDetailDTO> cartItems;
+    private int cartId;
+    private String customerId;
+    private List<CartDetailDTO> cartDetails;
     private double subTotal;
     private double deliveryCharges;
     private double total;
