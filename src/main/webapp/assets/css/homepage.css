@@ -4,7 +4,7 @@
 
 .business-banner {
     background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
-    url("/assets/images/business-banner.png") no-repeat bottom center/cover fixed;
+    url("../../assets/images/business-banner.png") no-repeat bottom center/cover fixed;
     color: white;
     padding: 20px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
