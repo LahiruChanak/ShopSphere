@@ -30,19 +30,19 @@ public class ProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int productId = Integer.parseInt(req.getParameter("id"));
+        int productId = Integer.parseInt(request.getParameter("id"));
 
         ProductDTO product = productService.getProductById(productId);
 
         if (product != null) {
             CategoryDTO category = productService.getCategoryById(product.getCategoryId());
 
-            req.setAttribute("product", product);
-            req.setAttribute("category", category);
+            request.setAttribute("product", product);
+            request.setAttribute("category", category);
         }
 
-        req.getRequestDispatcher("product.jsp").forward(req, resp);
+        request.getRequestDispatcher("/product.jsp").forward(request, response);
     }
 }

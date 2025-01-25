@@ -27,18 +27,27 @@
                     CategoryDTO category = (CategoryDTO) request.getAttribute("category");
                     if (product != null) {
                 %>
-                <h2 class="mb-3"><%= product.getName() %></h2>
+                <h2 class="mb-3"><%= product.getName() %>
+                </h2>
 
-                <div class="text-success mb-4">
+                <div class="mb-4">
                     <span>
-                        <i class="fas fa-check-circle fs-4 align-middle fw-bolder me-1"></i>
-                        <span id="availability"><%= product.getQtyOnHand() > 0 ? "In Stock" : "Out of Stock" %></span>
+                        <i class="hgi-stroke hgi-checkmark-badge-03 fs-4 align-middle fw-bolder me-1
+                            <%= product.getQtyOnHand() > 0 ? "text-success" : "text-danger" %>">
+                        </i>
+                        <span id="availability" class="<%= product.getQtyOnHand() > 0 ? "text-success" : "text-danger" %>">
+                            <%= product.getQtyOnHand() > 0 ? "In Stock" : "Out of Stock" %>
+                        </span>
                     </span>
                 </div>
 
+
+
+
                 <div class="mb-4">
                     <h6 class="mb-3">Description:</h6>
-                    <p><%= product.getDescription() %></p>
+                    <p><%= product.getDescription() %>
+                    </p>
                 </div>
 
                 <div class="mb-4">
@@ -48,10 +57,25 @@
                             <%= category != null ? category.getName() : "Uncategorized" %>
                         </li>
                         <li>
-                            <span class="text-muted">Quantity Available:</span>
-                            <%= product.getQtyOnHand() %>
+                            <span class="text-muted">Stock:</span> <%= product.getQtyOnHand() %>
                         </li>
                     </ul>
+                </div>
+                <div class="mb-4">
+                    <h6 class="mb-3">Select Size:</h6>
+                    <div class="d-flex align-items-center flex-wrap gap-5">
+                        <div class="d-flex gap-2">
+                            <button class="size-btn active" id="size-1">S</button>
+                            <button class="size-btn" id="size-2">M</button>
+                            <button class="size-btn" id="size-3">L</button>
+                            <button class="size-btn" id="size-4">XL</button>
+                        </div>
+
+                        <!-- View Size Chart Button -->
+                        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#size-modal">
+                            View Size Chart
+                        </button>
+                    </div>
                 </div>
                 <% } else { %>
                 <div class="alert alert-warning" role="alert">
@@ -65,7 +89,8 @@
                 <% if (product != null) { %>
                 <div class="d-flex flex-column justify-content-center gap-1 mb-4">
                     <div class="d-flex gap-2 text-success">
-                        <h3 class="mb-0">$<%= product.getUnitPrice() %></h3>
+                        <h3 class="mb-0">Rs. <%= product.getUnitPrice() %>
+                        </h3>
                     </div>
                     <span class="text-muted">All prices include VAT</span>
                 </div>
@@ -83,6 +108,25 @@
                     <button class="btn btn-outline-dark w-100 buy-now-btn">Buy now</button>
                 </div>
                 <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Size Chart Modal -->
+    <div class="modal fade" id="size-modal" tabindex="-1" aria-labelledby="size-modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between border-0">
+                    <h5 class="modal-title">Size Chart</h5>
+                    <button type="button" class="btn-close btn-close-black"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://i.postimg.cc/tTbSyjvm/size-chart.png"
+                         alt="Size Chart" class="w-100"/>
+                </div>
             </div>
         </div>
     </div>

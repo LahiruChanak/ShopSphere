@@ -82,17 +82,19 @@
                 if (products != null && !products.isEmpty()) {
                     for (ProductDTO product : products) {
             %>
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="data:image/jpeg;base64,<%= product.getImage() %>"
-                         alt="<%= product.getName() %>" class="img-fluid" loading="lazy"
-                         onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/images/fallback.jpg';"/>
+            <a href="product-view?id=<%= product.getItemCode() %>" class="text-decoration-none">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="data:image/jpeg;base64,<%= product.getImage() %>"
+                             alt="<%= product.getName() %>" class="img-fluid" loading="lazy"
+                             onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/images/fallback.jpg';"/>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-title"><%= product.getName() %></p>
+                        <p class="product-price">Rs. <%= product.getUnitPrice() %></p>
+                    </div>
                 </div>
-                <div class="product-info">
-                    <p class="product-title"><%= product.getName() %></p>
-                    <p class="product-price">Rs. <%= product.getUnitPrice() %></p>
-                </div>
-            </div>
+            </a>
             <%
                     }
                 } else {

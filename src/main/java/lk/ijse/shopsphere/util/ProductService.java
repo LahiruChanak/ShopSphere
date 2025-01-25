@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Base64;
 
 public class ProductService {
 
@@ -18,29 +18,33 @@ public class ProductService {
     }
 
     public ProductDTO getProductById(int productId) {
-
         ProductDTO product = null;
         String query = "SELECT * FROM product WHERE itemCode = ?";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(query)) {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setInt(1, productId);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    product = new ProductDTO();
+                    product.setItemCode(rs.getInt("itemCode"));
+                    product.setName(rs.getString("name"));
+                    product.setUnitPrice(rs.getDouble("unitPrice"));
+                    product.setDescription(rs.getString("description"));
+                    product.setQtyOnHand(rs.getInt("qtyOnHand"));
 
-            if (rs.next()) {
-                product = new ProductDTO();
-                product.setItemCode(rs.getInt("itemCode"));
-                product.setName(rs.getString("name"));
-                product.setUnitPrice(rs.getDouble("unitPrice"));
-                product.setDescription(rs.getString("description"));
-                product.setQtyOnHand(rs.getInt("qtyOnHand"));
-                product.setImageBase64(rs.getString("image"));
-                product.setCategoryId(rs.getInt("categoryId"));
+                    byte[] imageBytes = rs.getBytes("image");
+                    if (imageBytes != null) {
+                        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                        product.setImage(base64Image);
+                    }
+
+                    product.setCategoryId(rs.getInt("categoryId"));
+                }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Error fetching product by ID: " + e.getMessage());
         }
 
         return product;
@@ -50,23 +54,21 @@ public class ProductService {
         CategoryDTO category = null;
         String query = "SELECT * FROM category WHERE id = ?";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(query)) {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setInt(1, categoryId);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                category = new CategoryDTO();
-                category.setId(rs.getString("id"));
-                category.setName(rs.getString("name"));
-                category.setDescription(rs.getString("description"));
-                category.setStatus(rs.getString("status"));
-                category.setIcon(rs.getString("icon"));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    category = new CategoryDTO();
+                    category.setId(String.valueOf(rs.getInt("id")));
+                    category.setName(rs.getString("name"));
+                    category.setDescription(rs.getString("description"));
+                    category.setStatus(rs.getString("status"));
+                }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Error fetching category by ID: " + e.getMessage());
         }
 
         return category;
