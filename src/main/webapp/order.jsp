@@ -50,19 +50,19 @@
                         </div>
 
                         <!-- Shipping Form -->
-                        <form>
+                        <form action="${pageContext.request.contextPath}/placeOrder" method="post">
                             <div class="mb-3">
                                 <label class="form-label">
                                     Full name <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter full name" required/>
+                                <input type="text" class="form-control" name="fullName" placeholder="Enter full name" required/>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">
                                     Email address <span class="text-danger">*</span>
                                 </label>
-                                <input type="email" class="form-control" placeholder="Enter email address" required/>
+                                <input type="email" class="form-control" name="email" placeholder="Enter email address" required/>
                             </div>
 
                             <div class="mb-3">
@@ -71,8 +71,7 @@
                                 </label>
                                 <div class="input-group align-items-center phone-number-group">
                                     <input type="text" class="form-control country-code" value="+94 |" readonly/>
-                                    <input type="tel" class="form-control phone-number" placeholder="Enter phone number"
-                                           required/>
+                                    <input type="tel" class="form-control phone-number" name="phoneNumber" placeholder="Enter phone number" required/>
                                 </div>
                             </div>
 
@@ -80,7 +79,7 @@
                                 <label class="form-label">
                                     Address <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter address" required/>
+                                <input type="text" class="form-control" name="address" placeholder="Enter address" required/>
                             </div>
 
                             <div class="row mb-2">
@@ -88,20 +87,30 @@
                                     <label class="form-label">
                                         City <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" placeholder="Enter city"/>
+                                    <input type="text" class="form-control" name="city" placeholder="Enter city" required/>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">
                                         State <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" placeholder="Enter state"/>
+                                    <input type="text" class="form-control" name="state" placeholder="Enter state" required/>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">
                                         ZIP Code <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" placeholder="Enter ZIP code"/>
+                                    <input type="text" class="form-control" name="zipCode" placeholder="Enter ZIP code" required/>
                                 </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Payment Method <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" name="paymentMethod" required>
+                                    <option value="Card">Card</option>
+                                    <option value="COD">Cash on Delivery (COD)</option>
+                                </select>
                             </div>
 
                             <div class="mb-3">
@@ -112,11 +121,15 @@
                                 </button>
                                 <div class="collapse" id="leave-note">
                                     <div class="collapse-content">
-                                        <textarea class="form-control" rows="3"
-                                                  placeholder="Write your note here...">
-                                        </textarea>
+                                        <textarea class="form-control" name="note" rows="3" placeholder="Write your note here..."></textarea>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <button type="submit" class="btn w-100 py-3 text-white proceed-pay-btn">
+                                    Place Order
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -131,41 +144,18 @@
 
                         <!-- Product List -->
                         <div class="product-list mb-4">
-                            <div class="d-flex align-items-center mb-3">
-                                <img src="/api/placeholder/80/80" alt="DuoComfort Sofa"
-                                     class="product-image rounded me-3"/>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1">DuoComfort Sofa Premium</h6>
-                                    <span class="text-muted">1x</span>
+                            <c:forEach var="item" items="${cartItems}">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="${item.imageUrl}" alt="${item.name}" class="product-image rounded me-3"/>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">${item.name}</h6>
+                                        <span class="text-muted">${item.quantity}x</span>
+                                    </div>
+                                    <div class="ms-3">
+                                        <span class="fw-bold">$${item.price * item.quantity}</span>
+                                    </div>
                                 </div>
-                                <div class="ms-3">
-                                    <span class="fw-bold">$20.00</span>
-                                </div>
-                            </div>
-
-                            <div class="d-flex align-items-center mb-3">
-                                <img src="/api/placeholder/80/80" alt="IronOne Desk"
-                                     class="product-image rounded me-3"/>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1">IronOne Desk</h6>
-                                    <span class="text-muted">1x</span>
-                                </div>
-                                <div class="ms-3">
-                                    <span class="fw-bold">$25.00</span>
-                                </div>
-                            </div>
-
-                            <div class="d-flex align-items-center mb-3">
-                                <img src="/api/placeholder/80/80" alt="DuoComfort Sofa"
-                                     class="product-image rounded me-3"/>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1">DuoComfort Sofa Premium</h6>
-                                    <span class="text-muted">1x</span>
-                                </div>
-                                <div class="ms-3">
-                                    <span class="fw-bold">$20.00</span>
-                                </div>
-                            </div>
+                            </c:forEach>
                         </div>
 
                         <!-- Discount Code -->
@@ -187,27 +177,21 @@
                         <div class="checkout-summary">
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Subtotal</span>
-                                <span>$45.00</span>
+                                <span>$${subTotal}</span>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Shipping</span>
-                                <span>$5.00</span>
+                                <span>$${delivery}</span>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Discount</span>
-                                <span class="text-danger">-$10.00</span>
+                                <span class="text-danger">-$${discount}</span>
                             </div>
                             <div class="d-flex justify-content-between fw-bold mt-3">
                                 <span>Total</span>
-                                <span>$40.00</span>
+                                <span>$${total}</span>
                             </div>
                         </div>
-
-                        <!-- Pay Button -->
-                        <button class="btn w-100 py-3 mt-4 text-white proceed-pay-btn">
-                            <a href="${pageContext.request.contextPath}/pages/payment.jsp"
-                               class="nav-link text-white"> Proceed to Pay </a>
-                        </button>
 
                         <!-- Secure Checkout -->
                         <div class="mt-4 secure-checkout">

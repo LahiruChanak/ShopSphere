@@ -92,7 +92,7 @@ public class AuthServlet extends HttpServlet {
                                         session.setAttribute("fullName", rs.getString("name"));
                                         session.setAttribute("email", rs.getString("email"));
 
-                                        response.sendRedirect("pages/homepage.jsp");
+                                        response.sendRedirect("home");
                                     } else {
                                         request.setAttribute("signInPasswordError", "Email or Password is incorrect.");
                                         request.getRequestDispatcher("index.jsp").forward(request, response);
