@@ -22,7 +22,7 @@ import java.util.List;
 import lk.ijse.shopsphere.dto.CategoryDTO;
 
 @WebServlet({"/CategoryManage", "/categories"})
-@MultipartConfig(maxFileSize = 16177215)
+@MultipartConfig(maxFileSize = 10 * 1024 * 1024) // 10MB
 public class CategoryManageServlet extends HttpServlet {
 
     private DataSource dataSource;

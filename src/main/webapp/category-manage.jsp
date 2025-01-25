@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/category-manage.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/common.css"/>
 </head>
 <body>
 <%@ include file="header.jsp" %>
