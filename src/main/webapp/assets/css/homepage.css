@@ -20,7 +20,7 @@
 }
 
 .label-container {
-    display: grid;
+    display: grid !important;
     grid-template-columns: repeat(2, 1fr);
 }
 
@@ -45,8 +45,6 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
-
-/* ////////////////////////////////////////////////////////// */
 
 .dropdown-container {
     position: relative;
@@ -81,12 +79,10 @@
     padding-left: 10px;
 }
 
-/* Hover effect to show the menu */
 .dropdown-container:hover .all-categories-menu {
     display: block;
 }
 
-/* Ensure the images are properly aligned */
 .all-categories-menu img {
     width: 20px;
     height: auto;
@@ -97,8 +93,8 @@
     display: none !important;
 }
 
-.dropdown {
-    width: 200px;
+.category-dropdown {
+    width: 204px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

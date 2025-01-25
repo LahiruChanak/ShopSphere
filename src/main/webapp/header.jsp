@@ -3,6 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <title></title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -87,7 +88,7 @@
                         <div>
                             <img src="
         <% if (user != null && user.getImage() != null) { %>
-            data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(user.getImage()) %>
+            data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(user.getImage().getBytes()) %>
         <% } else { %>
             <%= request.getContextPath() %>/assets/images/default-profile.png
         <% } %>
@@ -145,7 +146,7 @@
                                 <hr/>
                                 <div>
                                     <div class="mb-3">
-                                        <a href="#" class="nav-link">
+                                        <a href="${pageContext.request.contextPath}/index.jsp" class="nav-link">
                                             <i class="hgi-stroke hgi-shield-user me-2 fs-5 align-middle"></i>
                                             Admin Login
                                         </a>
