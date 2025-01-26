@@ -60,7 +60,8 @@
                                 if (categories != null) {
                                     for (CategoryDTO category : categories) {
                             %>
-                            <option value="<%= category.getId() %>"><%= category.getName() %></option>
+                            <option value="<%= category.getId() %>"><%= category.getName() %>
+                            </option>
                             <%
                                     }
                                 }
@@ -88,12 +89,22 @@
                 if (products != null) {
                     for (ProductDTO product : products) {
             %>
-            <div class="product-item" data-category="<%= product.getCategoryId() %>" data-price="<%= product.getUnitPrice() %>">
-                <img src="data:image/jpeg;base64,<%= product.getImage() %>" alt="<%= product.getName() %>" class="product-image"/>
-                <h3><%= product.getName() %></h3>
-                <p><%= product.getDescription() %></p>
-                <p><strong>Price:</strong> $<%= product.getUnitPrice() %></p>
-                <p><strong>Quantity:</strong> <%= product.getQtyOnHand() %></p>
+            <div class="product-item" data-category="<%= product.getCategoryId() %>"
+                 data-price="<%= product.getUnitPrice() %>">
+                <div class="product-image-container">
+                    <img src="data:image/jpeg;base64,<%= product.getImage() %>" alt="<%= product.getName() %>"
+                         class="product-image"/>
+                </div>
+                <div class="product-details">
+                    <h3><%= product.getName() %>
+                    </h3>
+                    <p class="product-description"><%= product.getDescription() %>
+                    </p>
+                    <div class="product-meta">
+                        <span class="product-price">Price: $<%= product.getUnitPrice() %></span>
+                        <span class="product-quantity">In Stock: <%= product.getQtyOnHand() %></span>
+                    </div>
+                </div>
             </div>
             <%
                     }
@@ -110,11 +121,14 @@
     function filterProducts() {
         const categoryFilter = document.getElementById("categoryFilter").value;
         const priceFilter = document.getElementById("priceFilter").value;
+        const searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
         const productItems = document.querySelectorAll(".product-item");
 
         productItems.forEach((product) => {
             const category = product.getAttribute("data-category");
             const price = parseFloat(product.getAttribute("data-price"));
+            const name = product.querySelector("h3").textContent.toLowerCase();
+            const description = product.querySelector(".product-description").textContent.toLowerCase();
 
             // Check category filter
             const categoryMatch = categoryFilter === "all-categories" || category === categoryFilter;
@@ -126,14 +140,26 @@
                 priceMatch = price >= min && price <= max;
             }
 
-            // Show or hide product based on filters
-            if (categoryMatch && priceMatch) {
+            // Check search query
+            const searchMatch = searchQuery === "" ||
+                name.includes(searchQuery) ||
+                description.includes(searchQuery);
+
+            // Show or hide product based on all filters
+            if (categoryMatch && priceMatch && searchMatch) {
                 product.style.display = "block";
             } else {
                 product.style.display = "none";
             }
         });
     }
+
+    // Remove separate search event listener, use single filterProducts function
+    document.getElementById("searchInput").addEventListener("input", filterProducts);
+    document.getElementById("categoryFilter").addEventListener("change", filterProducts);
+    document.getElementById("priceFilter").addEventListener("change", filterProducts);
+
+    // Rest of the existing view toggle code remains the same
 
     // Event listeners for filters
     document.getElementById("categoryFilter").addEventListener("change", filterProducts);
