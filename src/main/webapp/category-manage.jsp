@@ -10,7 +10,6 @@
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous"
     />
-
     <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/category-manage.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/common.css"/>
@@ -49,8 +48,7 @@
                 <tbody>
                 <% for (CategoryDTO dto : categoryList) { %>
                 <tr>
-                    <td><%= dto.getId() %>
-                    </td>
+                    <td><%= dto.getId() %></td>
                     <td>
                         <% if (dto.getIcon() != null) { %>
                         <img src="data:image/png;base64,<%= dto.getIcon() %>" class="preview-image" alt="Icon">
@@ -58,10 +56,8 @@
                         <span class="text-muted">No Icon</span>
                         <% } %>
                     </td>
-                    <td><%= dto.getName() %>
-                    </td>
-                    <td><%= dto.getDescription() %>
-                    </td>
+                    <td><%= dto.getName() %></td>
+                    <td><%= dto.getDescription() %></td>
                     <td>
                         <span class="badge <%= dto.getStatus().equals("Active") ? "bg-success" : "bg-warning text-black" %>">
                             <%= dto.getStatus() %>

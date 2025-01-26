@@ -11,7 +11,6 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"/>
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customer-manage.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/common.css"/>
 </head>
@@ -45,8 +44,7 @@
                 <tbody>
                 <% for (CustomerDTO dto : customerList) { %>
                 <tr>
-                    <td><%= dto.getId() %>
-                    </td>
+                    <td><%= dto.getId() %></td>
                     <td>
                         <% if (dto.getImage() != null) { %>
                         <img src="data:image/png;base64,<%= dto.getImage() %>" class="preview-image" alt="Image">
@@ -54,53 +52,30 @@
                         <i class="hgi-stroke hgi-image-not-found-01 fs-3 text-muted"></i>
                         <% } %>
                     </td>
-                    <td><%= dto.getName() %>
-                    </td>
-                    <td><%= dto.getEmail() %>
-                    </td>
-                    <td><%= dto.getAddress() %>
-                    </td>
-                    <td><%= dto.getPhoneNumber() %>
-                    </td>
-                    <td><%= dto.getRegisteredDate() %>
-                    </td>
+                    <td><%= dto.getName() %></td>
+                    <td><%= dto.getEmail() %></td>
+                    <td><%= dto.getAddress() %></td>
+                    <td><%= dto.getPhoneNumber() %></td>
+                    <td><%= dto.getRegisteredDate() %></td>
                     <td>
                         <span class="badge <%= dto.getStatus().equals("Active") ? "bg-success" : "bg-danger" %>">
                             <%= dto.getStatus() %>
                         </span>
                     </td>
                     <td>
-                        <!-- Deactivate Button (for active accounts) -->
-                        <% if (dto.getStatus().equals("Active")) { %>
+                        <!-- Toggle Status Button -->
                         <a href="#"
                            data-bs-toggle="modal"
                            data-bs-target="#confirm-status-model"
                            data-customer-id="<%= dto.getId() %>"
                            data-customer-email="<%= dto.getEmail() %>"
                            data-customer-status="<%= dto.getStatus() %>"
-                           class="text-decoration-none text-success">
-                            <i class="hgi-stroke hgi-toggle-on fs-3"
+                           class="text-decoration-none <%= dto.getStatus().equals("Active") ? "text-success" : "text-danger" %>">
+                            <i class="hgi-stroke <%= dto.getStatus().equals("Active") ? "hgi-toggle-on" : "hgi-toggle-off" %> fs-3"
                                data-bs-toggle="tooltip"
                                data-bs-placement="bottom"
-                               data-bs-title="Activated"></i>
+                               data-bs-title="<%= dto.getStatus().equals("Active") ? "Deactivate" : "Activate" %>"></i>
                         </a>
-                        <% } %>
-
-                        <!-- Activate Button (for inactive accounts) -->
-                        <% if (dto.getStatus().equals("Inactive")) { %>
-                        <a href="#"
-                           data-bs-toggle="modal"
-                           data-bs-target="#confirm-status-model"
-                           data-customer-id="<%= dto.getId() %>"
-                           data-customer-email="<%= dto.getEmail() %>"
-                           data-customer-status="<%= dto.getStatus() %>"
-                           class="text-decoration-none text-danger">
-                            <i class="hgi-stroke hgi-toggle-off fs-3"
-                               data-bs-toggle="tooltip"
-                               data-bs-placement="bottom"
-                               data-bs-title="Deactivated"></i>
-                        </a>
-                        <% } %>
                     </td>
                 </tr>
                 <% } %>
