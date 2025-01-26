@@ -7,8 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.shopsphere.dto.CategoryDTO;
 import lk.ijse.shopsphere.dto.ProductDTO;
-import lk.ijse.shopsphere.util.DBConnection;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,14 +22,27 @@ import java.util.List;
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
 
+    private DataSource dataSource;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/ecommerce");
+        } catch (Exception e) {
+            throw new ServletException("Failed to initialize DataSource", e);
+        }
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String searchQuery = req.getParameter("query"); // Get the search query from the request
-        String categoryId = req.getParameter("categoryId"); // Get the category ID from the request
+        String searchQuery = req.getParameter("query");
+        String categoryId = req.getParameter("categoryId");
         List<ProductDTO> products = new ArrayList<>();
         List<CategoryDTO> categories = new ArrayList<>();
 
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             // Fetch products based on the search query and category filter
             String productQuery;
             PreparedStatement productStmt;
