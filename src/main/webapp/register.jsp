@@ -32,42 +32,67 @@
                         <input type="hidden" name="action" value="register">
                         <div class="mb-3">
                             <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                   placeholder="Enter your full name" required>
+                            <input type="text" class="form-control <%= request.getAttribute("signUpNameError") != null ? "is-invalid" : "" %>"
+                                   id="name" name="name" placeholder="Enter your full name" required>
+                            <% if (request.getAttribute("signUpNameError") != null) { %>
+                            <div class="invalid-feedback">
+                                <%= request.getAttribute("signUpNameError") %>
+                            </div>
+                            <% } %>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                   placeholder="name@example.com" required>
+                            <input type="email" class="form-control <%= request.getAttribute("signUpEmailError") != null ? "is-invalid" : "" %>"
+                                   id="email" name="email" placeholder="name@example.com" required>
+                            <% if (request.getAttribute("signUpEmailError") != null) { %>
+                            <div class="invalid-feedback">
+                                <%= request.getAttribute("signUpEmailError") %>
+                            </div>
+                            <% } %>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <div class="position-relative">
-                                <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="Create a password" required>
+                                <input type="password" class="form-control <%= request.getAttribute("signUpPasswordError") != null ? "is-invalid" : "" %>"
+                                       id="password" name="password" placeholder="Create a password" required>
                                 <button type="button" class="password-toggle" data-target="password">
                                     <i class="bi bi-eye"></i>
                                 </button>
                             </div>
+                            <% if (request.getAttribute("signUpPasswordError") != null) { %>
+                            <div class="invalid-feedback">
+                                <%= request.getAttribute("signUpPasswordError") %>
+                            </div>
+                            <% } %>
                         </div>
                         <div class="mb-3">
                             <label for="confirmPassword" class="form-label">Confirm Password</label>
                             <div class="position-relative">
-                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                                       placeholder="Confirm your password" required>
+                                <input type="password" class="form-control <%= request.getAttribute("signUpConfirmPasswordError") != null ? "is-invalid" : "" %>"
+                                       id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
                                 <button type="button" class="password-toggle" data-target="confirmPassword">
                                     <i class="bi bi-eye"></i>
                                 </button>
                             </div>
+                            <% if (request.getAttribute("signUpConfirmPasswordError") != null) { %>
+                            <div class="invalid-feedback">
+                                <%= request.getAttribute("signUpConfirmPasswordError") %>
+                            </div>
+                            <% } %>
                         </div>
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                            <input type="checkbox" class="form-check-input <%= request.getAttribute("signUpTermsError") != null ? "is-invalid" : "" %>"
+                                   id="terms" name="terms" required>
                             <label class="form-check-label" for="terms">I agree to the Terms and Conditions</label>
+                            <% if (request.getAttribute("signUpTermsError") != null) { %>
+                            <div class="invalid-feedback">
+                                <%= request.getAttribute("signUpTermsError") %>
+                            </div>
+                            <% } %>
                         </div>
                         <button type="submit" class="btn btn-primary w-100 mb-3">Create Account</button>
                         <div class="text-center">
-                            <p class="mb-0">Already have an account? <a href="index.jsp" class="text-decoration-none">Login</a>
-                            </p>
+                            <p class="mb-0">Already have an account? <a href="index.jsp" class="text-decoration-none">Login</a></p>
                         </div>
                     </form>
                 </div>

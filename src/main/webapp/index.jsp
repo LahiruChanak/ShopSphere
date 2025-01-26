@@ -32,20 +32,28 @@
                         <input type="hidden" name="action" value="login">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                   placeholder="name@example.com" required>
-                            <div class="invalid-feedback">Please enter a valid email address.</div>
+                            <input type="email" class="form-control <%= request.getAttribute("signInEmailError") != null ? "is-invalid" : "" %>"
+                                   id="email" name="email" placeholder="name@example.com" required>
+                            <% if (request.getAttribute("signInEmailError") != null) { %>
+                            <div class="invalid-feedback">
+                                <%= request.getAttribute("signInEmailError") %>
+                            </div>
+                            <% } %>
                         </div>
                         <div class="mb-3 position-relative">
                             <label for="password" class="form-label">Password</label>
                             <div class="position-relative">
-                                <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="Enter your password" required>
+                                <input type="password" class="form-control <%= request.getAttribute("signInPasswordError") != null ? "is-invalid" : "" %>"
+                                       id="password" name="password" placeholder="Enter your password" required>
                                 <button type="button" class="password-toggle" data-target="password">
                                     <i class="bi bi-eye-slash" id="toggleIcon"></i>
                                 </button>
                             </div>
-                            <div class="invalid-feedback">Password is required.</div>
+                            <% if (request.getAttribute("signInPasswordError") != null) { %>
+                            <div class="invalid-feedback">
+                                <%= request.getAttribute("signInPasswordError") %>
+                            </div>
+                            <% } %>
                         </div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
@@ -54,8 +62,8 @@
                         <button type="submit" class="btn btn-primary w-100 mb-3">Sign In</button>
                         <div class="text-center">
                             <a href="resetPW.jsp" class="text-decoration-none">Forgot Password?</a>
-                            <p class="mt-3 mb-0">Don't have an account? <a href="register.jsp"
-                                                                           class="text-decoration-none">Register</a></p>
+                            <p class="mt-3 mb-0">Don't have an account?
+                                <a href="register.jsp" class="text-decoration-none">Register</a></p>
                         </div>
                     </form>
                 </div>

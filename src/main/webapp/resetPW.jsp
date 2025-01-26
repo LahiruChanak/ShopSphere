@@ -22,48 +22,57 @@
             <div class="col-md-6">
                 <div class="welcome-section h-100 d-flex flex-column justify-content-center">
                     <h1>Password Recovery</h1>
-                    <p>Don't worry! It happens to the best of us. Enter your email address and we'll help you reset your
-                        password.</p>
+                    <p>Don't worry! It happens to the best of us. Enter your email address and we'll help you reset your password.</p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="card-body p-4 p-md-5">
                     <h2 class="text-center mb-4">Reset Password</h2>
-                    <p class="text-center text-muted mb-4" id="initialText">Enter your email address and we'll send you
-                        a link to reset your password.</p>
+                    <p class="text-center text-muted mb-4" id="initialText">Enter your email address and we'll send you a link to reset your password.</p>
                     <form id="resetForm" action="auth" method="POST">
                         <input type="hidden" name="action" value="reset-password">
                         <div class="mb-4">
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                   placeholder="name@example.com" required>
+                            <input type="email" class="form-control <%= request.getAttribute("resetPasswordEmailError") != null ? "is-invalid" : "" %>"
+                                   id="email" name="email" placeholder="name@example.com" required>
+                            <% if (request.getAttribute("resetPasswordEmailError") != null) { %>
+                            <div class="invalid-feedback">
+                                <%= request.getAttribute("resetPasswordEmailError") %>
+                            </div>
+                            <% } %>
                         </div>
                         <div id="passwordFields" style="display: none;">
                             <div class="mb-4 position-relative">
                                 <label for="newPassword" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="newPassword" name="newPassword"
-                                       placeholder="Enter new password" minlength="8" required>
+                                <input type="password" class="form-control <%= request.getAttribute("resetPasswordError") != null ? "is-invalid" : "" %>"
+                                       id="newPassword" name="newPassword" placeholder="Enter new password" minlength="8" required>
                                 <button type="button" class="password-toggle reset-pw" data-target="newPassword">
                                     <i class="bi bi-eye"></i>
                                 </button>
+                                <% if (request.getAttribute("resetPasswordError") != null) { %>
+                                <div class="invalid-feedback">
+                                    <%= request.getAttribute("resetPasswordError") %>
+                                </div>
+                                <% } %>
                             </div>
                             <div class="mb-4 position-relative">
                                 <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                                       placeholder="Confirm new password" minlength="8" required>
+                                <input type="password" class="form-control <%= request.getAttribute("resetPasswordConfirmError") != null ? "is-invalid" : "" %>"
+                                       id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" minlength="8" required>
                                 <button type="button" class="password-toggle reset-pw" data-target="confirmPassword">
                                     <i class="bi bi-eye"></i>
                                 </button>
+                                <% if (request.getAttribute("resetPasswordConfirmError") != null) { %>
+                                <div class="invalid-feedback">
+                                    <%= request.getAttribute("resetPasswordConfirmError") %>
+                                </div>
+                                <% } %>
                             </div>
                         </div>
-                        <button type="button" id="sendLinkBtn" class="btn btn-primary w-100 mb-3">Send Reset Link
-                        </button>
-                        <button type="submit" id="resetPasswordBtn" class="btn btn-primary w-100 mb-3"
-                                style="display: none;">Reset Password
-                        </button>
+                        <button type="button" id="sendLinkBtn" class="btn btn-primary w-100 mb-3">Send Reset Link</button>
+                        <button type="submit" id="resetPasswordBtn" class="btn btn-primary w-100 mb-3" style="display: none;">Reset Password</button>
                         <div class="text-center">
-                            <p class="mb-0">Remember your password? <a href="index.jsp" class="text-decoration-none">Login</a>
-                            </p>
+                            <p class="mb-0">Remember your password? <a href="index.jsp" class="text-decoration-none">Login</a></p>
                         </div>
                     </form>
                 </div>
