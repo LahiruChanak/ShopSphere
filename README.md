@@ -98,7 +98,7 @@ The database is designed to support all functionalities of the application. Key 
 
 ## 🎥 Demo Video
 A demo video showcasing the application's features is available on YouTube:  
-[YouTube Demo Link](#) *(Replace with your actual link)*
+[YouTube Demo Link](https://youtu.be/daEdQ6H-GUs)
 
 ---
 
