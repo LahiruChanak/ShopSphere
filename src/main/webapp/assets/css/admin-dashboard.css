@@ -16,6 +16,7 @@ main {
 .logo {
     font-family: SkateSemiBold, sans-serif !important;
     font-size: 24px;
+    margin-left: 50px !important;
 }
 
 .logo::after {
