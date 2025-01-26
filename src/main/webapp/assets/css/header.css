@@ -60,8 +60,20 @@
 }
 
 .search-bar {
-    height: fit-content !important;
+    position: relative;
+    overflow: hidden;
+    transition: width 0.3s ease;
 }
+
+.search-input {
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.search-bar.expanded .search-input {
+    width: 200px; /* Adjust the width as needed */
+}
+
 .search-bar .search-input {
     box-shadow: none;
     border: none;

@@ -22,6 +22,11 @@
 <header class="bg-white border-bottom px-5">
     <div class="container py-3">
         <div class="row align-items-center justify-content-between">
+            <div class="col-auto mt-1 d-flex align-self-start align-items-center back-btn-container">
+                <a href="#" class="text-decoration-none text-secondary-emphasis" id="back">
+                    <i class="hgi-stroke hgi-arrow-left-01 fs-2 me-lg-5 align-bottom back-icon" title="Back"></i>
+                </a>
+            </div>
             <!-- Logo -->
             <div class="col-auto ms-5 ps-5">
                 <span class="logo">ShopSphere</span>
@@ -61,6 +66,12 @@
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
+    // Navigate to back page
+    const back = document.getElementById("back");
+
+    back.addEventListener("click", () => {
+        window.history.back();
+    });
 </script>
 </body>
 </html>

@@ -23,21 +23,29 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String searchQuery = req.getParameter("query"); // Get the search query from the request
+        String categoryId = req.getParameter("categoryId"); // Get the category ID from the request
         List<ProductDTO> products = new ArrayList<>();
         List<CategoryDTO> categories = new ArrayList<>();
 
         try (Connection connection = DBConnection.getConnection()) {
-            // Fetch products based on the search query (or all products if no query)
+            // Fetch products based on the search query and category filter
             String productQuery;
             PreparedStatement productStmt;
 
-            if (searchQuery != null && !searchQuery.isEmpty()) {
+            if (categoryId != null && !categoryId.isEmpty()) {
+                // Fetch products by category
+                productQuery = "SELECT * FROM product p JOIN category c ON p.categoryId = c.id WHERE c.status = 'Active' AND c.id = ?";
+                productStmt = connection.prepareStatement(productQuery);
+                productStmt.setInt(1, Integer.parseInt(categoryId));
+            } else if (searchQuery != null && !searchQuery.isEmpty()) {
+                // Fetch products by search query
                 productQuery = "SELECT * FROM product WHERE name LIKE ? OR description LIKE ?";
                 productStmt = connection.prepareStatement(productQuery);
                 productStmt.setString(1, "%" + searchQuery + "%");
                 productStmt.setString(2, "%" + searchQuery + "%");
             } else {
-                productQuery = "SELECT * FROM product"; // Load all products if no query
+                // Fetch all products if no query or category is provided
+                productQuery = "SELECT * FROM product";
                 productStmt = connection.prepareStatement(productQuery);
             }
 
@@ -52,6 +60,7 @@ public class SearchServlet extends HttpServlet {
                         productRs.getInt("qtyOnHand"),
                         Base64.getEncoder().encodeToString(productRs.getBytes("image")) // Convert image to Base64
                 );
+                product.setCategoryId(productRs.getInt("categoryId")); // Set category ID
                 products.add(product);
             }
 

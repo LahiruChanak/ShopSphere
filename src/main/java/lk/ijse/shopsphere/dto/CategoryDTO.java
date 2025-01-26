@@ -15,4 +15,11 @@ public class CategoryDTO {
     private String status;
     private String icon;
 
+    public CategoryDTO(int id, String name, String description, String status, String icon) {
+        this.id = String.valueOf(id);
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.icon = icon;
+    }
 }

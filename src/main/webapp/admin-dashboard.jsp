@@ -19,7 +19,7 @@
 <main>
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="d-flex flex-column align-items-center mb-3">
+        <div class="d-flex flex-column align-items-center my-3">
             <img src="https://img.icons8.com/?size=100&id=psevkzUhHRTs&format=png&color=000000" alt="Admin"
                  class="rounded-circle img-fluid admin-image"/>
             <h2 class="text-white text-center mt-2">Admin</h2>
@@ -48,7 +48,7 @@
         <h1>Dashboard</h1>
 
         <!-- Summary Cards -->
-        <div class="row">
+        <div class="row pt-5">
             <div class="col-md-3">
                 <div class="summary-box">
                     <i class="hgi-stroke hgi-user-multiple-02 fs-2 text-primary"></i>
@@ -87,23 +87,23 @@
             </div>
         </div>
 
-        <!-- Table -->
-        <div class="table-responsive mt-4">
-            <table class="table table-borderless table-hover">
-                <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th>Date</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Add rows dynamically here -->
-                </tbody>
-            </table>
-        </div>
+<%--        <!-- Table -->--%>
+<%--        <div class="table-responsive mt-4">--%>
+<%--            <table class="table table-borderless table-hover">--%>
+<%--                <thead>--%>
+<%--                <tr>--%>
+<%--                    <th>Order ID</th>--%>
+<%--                    <th>Customer</th>--%>
+<%--                    <th>Date</th>--%>
+<%--                    <th>Total</th>--%>
+<%--                    <th>Status</th>--%>
+<%--                </tr>--%>
+<%--                </thead>--%>
+<%--                <tbody>--%>
+<%--                <!-- Add rows dynamically here -->--%>
+<%--                </tbody>--%>
+<%--            </table>--%>
+<%--        </div>--%>
     </div>
 </main>
 

@@ -5,9 +5,17 @@
 <html>
 <head>
     <title>Search - ShopSphere</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+    />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/search.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css">
@@ -17,8 +25,9 @@
     <div class="container py-3">
         <div class="row justify-content-center align-items-center gap-lg-2">
             <div class="col-auto mt-1 d-flex align-self-start align-items-center back-btn-container">
-                <a href="#" class="text-decoration-none text-secondary-emphasis" id="back">
-                    <i class="hgi-stroke hgi-arrow-left-01 fs-2 me-lg-5 align-bottom back-icon" title="Back"></i>
+                <a href="#" class="text-decoration-none text-secondary-emphasis home-btn" id="back" data-bs-toggle="tooltip"
+                   data-bs-placement="bottom" data-bs-title="Home">
+                    <i class="hgi-stroke hgi-home-01 fs-4 me-lg-5 align-bottom"></i>
                 </a>
             </div>
             <div class="col-auto">
@@ -57,10 +66,12 @@
                             <option value="all-categories">All Categories</option>
                             <%
                                 List<CategoryDTO> categories = (List<CategoryDTO>) request.getAttribute("categories");
+                                String selectedCategoryId = request.getParameter("categoryId");
                                 if (categories != null) {
                                     for (CategoryDTO category : categories) {
+                                        String selected = category.getId().equals(selectedCategoryId) ? "selected" : "";
                             %>
-                            <option value="<%= category.getId() %>"><%= category.getName() %>
+                            <option value="<%= category.getId() %>" <%= selected %>><%= category.getName() %>
                             </option>
                             <%
                                     }
@@ -70,12 +81,12 @@
                     </div>
                     <div class="col-md-9 col-sm-7">
                         <select class="form-select" id="priceFilter">
-                            <option value="">All Prices (LKR)</option>
-                            <option value="0-1000">0 - 1000</option>
-                            <option value="1000-2000">1000 - 2000</option>
-                            <option value="2000-3000">2000 - 3000</option>
-                            <option value="3000-4000">3000 - 4000</option>
-                            <option value="4000-5000">4000 - 5000</option>
+                            <option value="">All Prices</option>
+                            <option value="0-1000">$0 - $1000</option>
+                            <option value="1000-2000">$1000 - $2000</option>
+                            <option value="2000-3000">$2000 - $3000</option>
+                            <option value="3000-4000">$3000 - $4000</option>
+                            <option value="4000-5000">$4000 - $5000</option>
                         </select>
                     </div>
                 </div>
@@ -101,7 +112,7 @@
                     <p class="product-description"><%= product.getDescription() %>
                     </p>
                     <div class="product-meta">
-                        <span class="product-price">Price: $<%= product.getUnitPrice() %></span>
+                        <span class="product-price">RS. <%= product.getUnitPrice() %></span>
                         <span class="product-quantity">In Stock: <%= product.getQtyOnHand() %></span>
                     </div>
                 </div>
@@ -117,6 +128,17 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/jquery-3.7.1.min.js"></script>
 <script>
+    // Bootstrap tooltip initialization
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    // Navigate to homepage
+    const back = document.getElementById("back");
+
+    back.addEventListener("click", () => {
+        window.location.href = "${pageContext.request.contextPath}/homepage.jsp";
+    });
+
     // Function to filter products based on category and price
     function filterProducts() {
         const categoryFilter = document.getElementById("categoryFilter").value;
@@ -199,6 +221,23 @@
         productContainer.classList.add("product-grid");
         gridView.classList.add("active");
         listView.classList.remove("active");
+    });
+
+    // Event listener for category filter
+    document.getElementById("categoryFilter").addEventListener("change", function () {
+        const categoryId = this.value;
+        const searchQuery = document.getElementById("searchInput").value.trim();
+        let url = "${pageContext.request.contextPath}/search";
+
+        if (categoryId !== "all-categories") {
+            url += "?categoryId=" + encodeURIComponent(categoryId);
+        }
+
+        if (searchQuery) {
+            url += (url.includes("?") ? "&" : "?") + "query=" + encodeURIComponent(searchQuery);
+        }
+
+        window.location.href = url;
     });
 </script>
 </body>

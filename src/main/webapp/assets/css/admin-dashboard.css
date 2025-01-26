@@ -1,11 +1,27 @@
+@font-face {
+    font-family: "SkateSemiBold";
+    src: url("../fonts/skate-5.ttf");
+}
+
 body {
-    margin-left: 260px !important;
+    margin-left: 252px !important;
     min-height: 100vh !important;
 }
 
 main {
     display: flex;
     flex: 1;
+}
+
+.logo {
+    font-family: SkateSemiBold, sans-serif !important;
+    font-size: 24px;
+}
+
+.logo::after {
+    content: ".";
+    color: #fe5f55 !important;
+    font-size: 32px;
 }
 
 /* Sidebar */
@@ -65,6 +81,7 @@ main {
     flex-grow: 1;
     padding: 20px;
     background-color: #fff;
+    min-height: 50vh !important;
 }
 
 .content h1 {
@@ -78,13 +95,13 @@ main {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .summary-box:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
 }
 
 .summary-box i {

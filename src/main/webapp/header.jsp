@@ -38,7 +38,7 @@
                            placeholder="Search for products, brands and more"
                     />
                     <button class="btn btn-dark px-3 rounded-5">
-                        <a href="${pageContext.request.contextPath}/pages/search.jsp"
+                        <a href="search"
                            class="text-decoration-none text-white">
                             <i class="hgi-stroke hgi-search-01 fs-5"></i>
                         </a>
