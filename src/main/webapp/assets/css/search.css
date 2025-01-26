@@ -1,0 +1,42 @@
+/* search.css */
+.product-list .product-item {
+    display: block;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.product-grid .product-item {
+    text-align: center;
+}
+
+.product-item img {
+    width: 100%;
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Ensure images cover the area without distortion */
+    border-radius: 8px;
+}
+
+.view-switch {
+    background-color: #ccc;
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.view-switch.active {
+    background-color: #fe5f55;
+}
+
+.view-switch:hover {
+    background-color: #aaa;
+}
