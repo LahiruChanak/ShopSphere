@@ -181,7 +181,7 @@ public class AuthServlet extends HttpServlet {
 
                             int rowsUpdated = updateStmt.executeUpdate();
                             if (rowsUpdated > 0) {
-                                response.sendRedirect("password-reset-success.jsp");
+                                response.sendRedirect("index.jsp");
                             } else {
                                 request.setAttribute("resetPasswordEmailError", "Email not found.");
                                 request.getRequestDispatcher("resetPW.jsp").forward(request, response);

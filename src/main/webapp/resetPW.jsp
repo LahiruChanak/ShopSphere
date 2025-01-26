@@ -11,6 +11,8 @@
 
     <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"/>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <link href="${pageContext.request.contextPath}/assets/css/auth.css" rel="stylesheet">
 </head>
 <body>

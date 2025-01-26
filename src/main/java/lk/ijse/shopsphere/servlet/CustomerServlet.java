@@ -6,24 +6,37 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lk.ijse.shopsphere.util.DBConnection;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import static lk.ijse.shopsphere.util.DBConnection.getConnection;
-
 @WebServlet("/CustomerServlet")
 public class CustomerServlet extends HttpServlet {
+
+    private DataSource dataSource;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            dataSource = (DataSource) envContext.lookup("jdbc/ecommerce");
+        } catch (Exception e) {
+            throw new ServletException("Failed to initialize DataSource", e);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
 
-        try (Connection conn = DBConnection.getConnection()) {
+        try (Connection conn = dataSource.getConnection()) {
             if ("viewProfile".equals(action)) {
                 String customerEmail = (String) session.getAttribute("email");
 
@@ -58,7 +71,7 @@ public class CustomerServlet extends HttpServlet {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
 
-        try (Connection conn = getConnection()) {
+        try (Connection conn = dataSource.getConnection()) {
             if ("updateProfile".equals(action)) {
                 // Update profile details
                 String customerEmail = (String) session.getAttribute("email");
