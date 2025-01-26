@@ -21,62 +21,29 @@
 
 <header class="bg-white border-bottom px-5">
     <div class="container py-3">
-        <div class="row align-items-center">
+        <div class="row align-items-center justify-content-between">
             <!-- Logo -->
-            <div class="col-auto">
-                <a href="${pageContext.request.contextPath}/index.jsp" class="text-decoration-none">
-                    <span class="logo">ShopSphere</span>
-                </a>
-            </div>
-
-            <!-- Search Bar -->
-            <div class="col">
-                <div class="input-group search-bar">
-                    <input type="text" class="form-control search-input" placeholder="Search for products, brands, and more"/>
-                    <button class="btn btn-dark">
-                        <i class="hgi-stroke hgi-search-01 fs-5"></i>
-                    </button>
-                </div>
+            <div class="col-auto ms-5 ps-5">
+                <span class="logo">ShopSphere</span>
             </div>
 
             <!-- User Profile and Cart -->
             <div class="col-auto">
-                <div class="d-flex align-items-center gap-4">
-                    <!-- Profile Dropdown -->
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-decoration-none text-dark">
-                            <img src="
-                                <% if (user != null && user.getImage() != null) { %>
-                                    data:image/jpeg;base64,<%= Base64.getEncoder().encodeToString(user.getImage().getBytes()) %>
-                                <% } else { %>
-                                    ${pageContext.request.contextPath}/assets/images/default-profile.png
-                                <% } %>
-                            " class="header-profile" alt="Profile Picture"/>
-                            <span class="ms-2 fw-bold"><%= session.getAttribute("fullName") %></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end auth-popup p-3">
-                            <a href="${pageContext.request.contextPath}/ProfileServlet" class="dropdown-item">
-                                <i class="hgi-stroke hgi-user-circle me-2"></i>My Account
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <i class="hgi-stroke hgi-task-01 me-2"></i>My Orders
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <i class="hgi-stroke hgi-coupon-percent me-2"></i>My Coupons
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="${pageContext.request.contextPath}/index.jsp" class="dropdown-item text-danger">
-                                <i class="hgi-stroke hgi-login-01 me-2 rotate-right"></i>Log Out
-                            </a>
-                        </div>
-                    </div>
+                <div class="d-flex align-items-center gap-5">
+                    <!-- Profile -->
+                    <a href="#" class="d-flex align-items-center text-decoration-none text-dark">
+                        <img src="https://img.icons8.com/?size=100&id=psevkzUhHRTs&format=png&color=000000"
+                             class="header-profile" alt="Profile Picture"/>
+                        <span class="ms-2 fw-bold">Admin</span>
+                    </a>
 
-                    <!-- Cart -->
-                    <a href="${pageContext.request.contextPath}/cart.jsp" class="nav-link position-relative">
-                        <i class="hgi-stroke hgi-shopping-basket-01 fs-3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count">
-                            0
-                        </span>
+                    <!-- Logout -->
+                    <a href="${pageContext.request.contextPath}/index.jsp"
+                       class="nav-link position-relative"
+                       data-bs-toggle="tooltip"
+                       data-bs-placement="bottom"
+                       title="Logout">
+                        <i class="hgi-stroke hgi-login-01 me-2 fs-4 align-middle rotate-right"></i>
                     </a>
                 </div>
             </div>
@@ -84,6 +51,16 @@
     </div>
 </header>
 
-<script src="${pageContext.request.contextPath}/assets/js/admin-header.js"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"
+></script>
+<script>
+    // Bootstrap tooltip initialization
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+</script>
 </body>
 </html>

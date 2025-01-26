@@ -37,8 +37,8 @@
             <a href="categories">
                 <i class="hgi-stroke hgi-arrange fs-5 align-middle"></i> Categories
             </a>
-            <a href="settings.jsp">
-                <i class="hgi-stroke hgi-setting-07 fs-5 align-middle"></i> Settings
+            <a href="index.jsp">
+                <i class="hgi-stroke hgi-login-01 fs-5 align-middle rotate-right"></i> Logout
             </a>
         </nav>
     </div>
