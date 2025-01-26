@@ -69,10 +69,12 @@
                     </div>
                     <div class="col-md-9 col-sm-7">
                         <select class="form-select" id="priceFilter">
-                            <option value="">All Prices</option>
-                            <option value="0-50">$0 - $50</option>
-                            <option value="50-100">$50 - $100</option>
-                            <option value="100-200">$100 - $200</option>
+                            <option value="">All Prices (LKR)</option>
+                            <option value="0-1000">0 - 1000</option>
+                            <option value="1000-2000">1000 - 2000</option>
+                            <option value="2000-3000">2000 - 3000</option>
+                            <option value="3000-4000">3000 - 4000</option>
+                            <option value="4000-5000">4000 - 5000</option>
                         </select>
                     </div>
                 </div>
@@ -101,109 +103,77 @@
     </div>
 </main>
 
-<%@ include file="footer.jsp" %>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/jquery-3.7.1.min.js"></script>
 <script>
-    // Bootstrap tooltip initialization
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(
-        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-    );
-
-    // View management
-    let currentView = "list";
-    const listView = document.getElementById("listView");
-    const gridView = document.getElementById("gridView");
-    const productContainer = document.getElementById("productContainer");
-
-    // Update active view style
-    function updateViewButtons() {
-        listView.classList.toggle("active", currentView === "list");
-        gridView.classList.toggle("active", currentView === "grid");
-    }
-
-    // Render products
-    function renderProducts(isGrid = false, filters = {}) {
-        currentView = isGrid ? "grid" : "list";
-        updateViewButtons();
-
-        // Get all product items
+    // Function to filter products based on category and price
+    function filterProducts() {
+        const categoryFilter = document.getElementById("categoryFilter").value;
+        const priceFilter = document.getElementById("priceFilter").value;
         const productItems = document.querySelectorAll(".product-item");
 
-        // Filter products based on selected filters
         productItems.forEach((product) => {
             const category = product.getAttribute("data-category");
             const price = parseFloat(product.getAttribute("data-price"));
 
-            const categoryMatch = !filters.category || filters.category === "all-categories" || category === filters.category;
-            const priceMatch = !filters.price || checkPriceRange(price, filters.price);
+            // Check category filter
+            const categoryMatch = categoryFilter === "all-categories" || category === categoryFilter;
 
+            // Check price filter
+            let priceMatch = true;
+            if (priceFilter) {
+                const [min, max] = priceFilter.split("-").map(Number);
+                priceMatch = price >= min && price <= max;
+            }
+
+            // Show or hide product based on filters
             if (categoryMatch && priceMatch) {
                 product.style.display = "block";
             } else {
                 product.style.display = "none";
             }
         });
-
-        // Update container class for grid/list view
-        productContainer.classList.remove("product-list", "product-grid");
-        productContainer.classList.add(isGrid ? "product-grid" : "product-list");
     }
 
-    // Check if price falls within the selected range
-    function checkPriceRange(price, range) {
-        const [min, max] = range.split("-").map(Number);
-        return price >= min && price <= max;
-    }
+    // Event listeners for filters
+    document.getElementById("categoryFilter").addEventListener("change", filterProducts);
+    document.getElementById("priceFilter").addEventListener("change", filterProducts);
 
-    // Event listeners for view toggles
-    listView.addEventListener("click", () => renderProducts(false));
-    gridView.addEventListener("click", () => renderProducts(true));
+    // Live search functionality
+    document.getElementById("searchInput").addEventListener("input", function () {
+        const query = this.value.trim().toLowerCase();
+        const productItems = document.querySelectorAll(".product-item");
 
-    // Filter handling
-    const categoryFilter = document.getElementById("categoryFilter");
-    const priceFilter = document.getElementById("priceFilter");
+        productItems.forEach((product) => {
+            const name = product.querySelector("h3").textContent.toLowerCase();
+            const description = product.querySelector("p").textContent.toLowerCase();
 
-    categoryFilter.addEventListener("change", () => {
-        const filters = {
-            category: categoryFilter.value,
-            price: priceFilter.value,
-        };
-        renderProducts(currentView === "grid", filters);
-    });
-
-    priceFilter.addEventListener("change", () => {
-        const filters = {
-            category: categoryFilter.value,
-            price: priceFilter.value,
-        };
-        renderProducts(currentView === "grid", filters);
-    });
-
-    // Live search handling
-    const searchInput = document.getElementById("searchInput");
-    const searchButton = document.getElementById("searchButton");
-
-    searchButton.addEventListener("click", () => {
-        const query = searchInput.value.trim();
-        if (query) {
-            window.location.href = "${pageContext.request.contextPath}/search?query=" + encodeURIComponent(query);
-        }
-    });
-
-    searchInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            const query = searchInput.value.trim();
-            if (query) {
-                window.location.href = "${pageContext.request.contextPath}/search?query=" + encodeURIComponent(query);
+            if (name.includes(query) || description.includes(query)) {
+                product.style.display = "block";
+            } else {
+                product.style.display = "none";
             }
-        }
+        });
     });
 
-    // Initial render
-    renderProducts(false);
+    // List/Grid view toggle
+    const listView = document.getElementById("listView");
+    const gridView = document.getElementById("gridView");
+    const productContainer = document.getElementById("productContainer");
+
+    listView.addEventListener("click", () => {
+        productContainer.classList.remove("product-grid");
+        productContainer.classList.add("product-list");
+        listView.classList.add("active");
+        gridView.classList.remove("active");
+    });
+
+    gridView.addEventListener("click", () => {
+        productContainer.classList.remove("product-list");
+        productContainer.classList.add("product-grid");
+        gridView.classList.add("active");
+        listView.classList.remove("active");
+    });
 </script>
 </body>
 </html>

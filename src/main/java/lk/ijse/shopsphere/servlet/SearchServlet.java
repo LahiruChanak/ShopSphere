@@ -27,11 +27,20 @@ public class SearchServlet extends HttpServlet {
         List<CategoryDTO> categories = new ArrayList<>();
 
         try (Connection connection = DBConnection.getConnection()) {
-            // Fetch products based on the search query
-            String productQuery = "SELECT * FROM product WHERE name LIKE ? OR description LIKE ?";
-            PreparedStatement productStmt = connection.prepareStatement(productQuery);
-            productStmt.setString(1, "%" + searchQuery + "%"); // Search in product name
-            productStmt.setString(2, "%" + searchQuery + "%"); // Search in product description
+            // Fetch products based on the search query (or all products if no query)
+            String productQuery;
+            PreparedStatement productStmt;
+
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                productQuery = "SELECT * FROM product WHERE name LIKE ? OR description LIKE ?";
+                productStmt = connection.prepareStatement(productQuery);
+                productStmt.setString(1, "%" + searchQuery + "%");
+                productStmt.setString(2, "%" + searchQuery + "%");
+            } else {
+                productQuery = "SELECT * FROM product"; // Load all products if no query
+                productStmt = connection.prepareStatement(productQuery);
+            }
+
             ResultSet productRs = productStmt.executeQuery();
 
             while (productRs.next()) {
