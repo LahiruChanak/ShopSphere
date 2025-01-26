@@ -68,11 +68,3 @@
     display: inline-block;
     transform: rotate(180deg);
 }
-
-.back-btn-container {
-    display: none !important;
-}
-
-.back-icon {
-    display: none !important;
-}

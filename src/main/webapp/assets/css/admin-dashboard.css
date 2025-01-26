@@ -142,3 +142,11 @@ main {
 .table tbody tr:hover {
     background-color: #f8f9fa;
 }
+
+.back-btn-container {
+    display: none !important;
+}
+
+.back-icon {
+    display: none !important;
+}
