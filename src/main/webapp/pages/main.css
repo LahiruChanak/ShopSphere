@@ -1,0 +1,139 @@
+/* Custom styles */
+body {
+    /*background: linear-gradient(102.3deg, rgba(147,39,143,1) 5.9%, rgba(234,172,232,1) 64%, rgba(246,219,245,1) 89%);*/
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+}
+
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    overflow: hidden;
+}
+
+.welcome-section {
+    background: linear-gradient(135deg, #8B5CF6 0%, #D946EF 100%);
+    color: white;
+    padding: 3rem;
+}
+
+.welcome-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.welcome-section p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #8B5CF6 0%, #D946EF 100%);
+    border: none;
+    padding: 12px 24px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #7C3AED 0%, #C026D3 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+}
+
+.form-control {
+    border: 2px solid #e9ecef;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #8B5CF6;
+    box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+    background: white;
+}
+
+.form-label {
+    color: #4B5563;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form-check-input:checked {
+    background-color: #8B5CF6;
+    border-color: #8B5CF6;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: #6B7280;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.password-toggle:hover {
+    color: #8B5CF6;
+}
+
+.form-floating {
+    position: relative;
+}
+
+h2 {
+    color: #4B5563;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.text-decoration-none {
+    color: #8B5CF6;
+    transition: color 0.3s ease;
+}
+
+.text-decoration-none:hover {
+    color: #7C3AED;
+}
+
+/* Card entrance animation */
+.card {
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom container padding for better mobile experience */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 1rem;
+    }
+
+    .card {
+        margin: 0 10px;
+    }
+
+    .welcome-section {
+        padding: 2rem;
+    }
+}
