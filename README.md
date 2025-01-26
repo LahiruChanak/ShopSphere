@@ -75,21 +75,21 @@ The database is designed to support all functionalities of the application. Key 
 ## 🖼 Application Screenshots
 Here are some screenshots showcasing the application's features:
 
-| **Home Page** | **Login Page** | **Signup Page** |
+| **Login Page** | **Signup Page** | **Reset Password Page** | **Admin Login Page** |
 |---------------|----------------|-----------------|
-| ![Home Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/001.png?raw=true) | ![Login Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/002.png?raw=true) | ![Signup Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/003.png?raw=true) |
+| ![Login Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/001.png?raw=true) | ![Signup Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/002.png?raw=true) | ![Reset Password Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/003.png?raw=true) | ![Admin Login Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/004.png?raw=true) |
 
-| **Customer Management** | **Product Management** | **Order Management** |
+| **Customer Homepage** | **Customer Profile** | **Search Page** |
 |-------------------------|------------------------|----------------------|
-| ![Customers Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/004.png?raw=true) | ![Products Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/005.png?raw=true) | ![Orders Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/006.png?raw=true) |
+| ![Customer Homepage](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/005.png?raw=true) | ![Customer Profile](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/006.png?raw=true) | ![Search Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/007.png?raw=true) |
 
-| **Category Management** | **Admin Profile** | **Store Page** |
+| **Category Management** | **Products Management** | **User Management** | **Order Management** |
 |-------------------------|-------------------|----------------|
-| ![Categories Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/007.png?raw=true) | ![Admin Profile Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/008.png?raw=true) | ![Store Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/009.png?raw=true) |
+| ![Categories Management](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/008.png?raw=true) | ![Products Management](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/009.png?raw=true) | ![User Management](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/010.png?raw=true) | ![Order Management](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/0011.png?raw=true) |
 
-| **Order History** | **Shopping Cart** | **Customer Profile** |
+| **Shopping Cart** | **Order Page** | **Payment Page** |
 |-------------------|-------------------|----------------------|
-| ![My Orders Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/010.png?raw=true) | ![Cart Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/011.png?raw=true) | ![Customer Profile Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/012.png?raw=true) |
+| ![Order Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/012.png?raw=true) | ![Shopping Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/013.png?raw=true) | ![Payment Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/014.png?raw=true) |
 
 ---
 
