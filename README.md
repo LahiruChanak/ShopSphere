@@ -87,9 +87,9 @@ Here are some screenshots showcasing the application's features:
 |-------------------------|-------------------|----------------|
 | ![Categories Management](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/008.png?raw=true) | ![Products Management](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/009.png?raw=true) | ![User Management](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/010.png?raw=true) | ![Order Management](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/0011.png?raw=true) |
 
-| **Shopping Cart** | **Order Page** | **Payment Page** |
+|**Product Page** | **Shopping Cart** | **Order Page** | **Payment Page** |
 |-------------------|-------------------|----------------------|
-| ![Order Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/012.png?raw=true) | ![Shopping Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/013.png?raw=true) | ![Payment Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/014.png?raw=true) |
+| ![Product Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/012.png?raw=true)| ![Order Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/013.png?raw=true) | ![Shopping Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/014.png?raw=true) | ![Payment Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/015.png?raw=true) |
 
 ---
 
