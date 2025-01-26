@@ -62,7 +62,8 @@ public class AuthServlet extends HttpServlet {
                                 HttpSession session = request.getSession();
                                 session.setAttribute("isAdmin", true);
                                 session.setAttribute("email", ADMIN_EMAIL);
-                                response.sendRedirect("admin-dashboard.jsp");
+
+                                response.sendRedirect("AdminDashboard");
                                 return;
                             } else {
                                 request.setAttribute("signInPasswordError", "Email or Password is incorrect.");

@@ -53,7 +53,7 @@
                 <div class="summary-box">
                     <i class="hgi-stroke hgi-user-multiple-02 fs-2 text-primary"></i>
                     <div>
-                        <h3>150</h3>
+                        <h3>${totalCustomers}</h3>
                         <p>Total Customers</p>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                 <div class="summary-box">
                     <i class="hgi-stroke hgi-shopping-cart-check-in-02 fs-2 text-success"></i>
                     <div>
-                        <h3>200</h3>
+                        <h3>${totalOrders}</h3>
                         <p>Total Orders</p>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                 <div class="summary-box">
                     <i class="hgi-stroke hgi-package fs-2 text-warning"></i>
                     <div>
-                        <h3>50</h3>
+                        <h3>${totalProducts}</h3>
                         <p>Total Products</p>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="summary-box">
                     <i class="hgi-stroke hgi-arrange fs-2 text-danger"></i>
                     <div>
-                        <h3>10</h3>
+                        <h3>${totalCategories}</h3>
                         <p>Total Categories</p>
                     </div>
                 </div>
