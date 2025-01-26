@@ -89,7 +89,7 @@ Here are some screenshots showcasing the application's features:
 
 |**Product Page** | **Shopping Cart** | **Order Page** | **Payment Page** |
 |-------------------|-------------------|----------------------|
-| ![Product Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/012.png?raw=true)| ![Order Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/013.png?raw=true) | ![Shopping Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/014.png?raw=true) | ![Payment Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/015.png?raw=true) |
+| ![Product Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/012.png?raw=true)| ![Shopping Cart](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/013.png?raw=true) | ![Order Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/014.png?raw=true) | ![Payment Page](https://github.com/LahiruChanak/ShopSphere/blob/master/src/main/webapp/assets/images/readme/015.png?raw=true) |
 
 ---
 
