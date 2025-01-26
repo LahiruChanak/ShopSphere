@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.*;
 
-@WebServlet("/AuthServlet")
+@WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
 
     private DataSource dataSource;
@@ -39,12 +39,13 @@ public class AuthServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String name = request.getParameter("name");
+        String newPassword = request.getParameter("newPassword");
 
         boolean hasError = false;
 
         try (Connection connection = dataSource.getConnection()) {
             switch (action) {
-                case "signIn":
+                case "login":
                     if (email == null || email.isEmpty()) {
                         request.setAttribute("signInEmailError", "Email is required.");
                         hasError = true;
@@ -108,7 +109,7 @@ public class AuthServlet extends HttpServlet {
                     }
                     break;
 
-                case "signUp":
+                case "register":
                     if (name == null || name.isEmpty()) {
                         request.setAttribute("signUpNameError", "Name is required.");
                         hasError = true;
@@ -143,35 +144,36 @@ public class AuthServlet extends HttpServlet {
 
                         if (!hasError) {
                             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
-                            String insertQuery = "INSERT INTO customer (name, email, password) VALUES (?, ?, ?)";
+                            String insertQuery = "INSERT INTO customer (name, email, password, registeredDate) VALUES (?, ?, ?, ?)";
                             try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
                                 insertStmt.setString(1, name);
                                 insertStmt.setString(2, email);
                                 insertStmt.setString(3, hashedPassword);
+                                insertStmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
                                 insertStmt.executeUpdate();
                                 response.sendRedirect("index.jsp");
                             }
                         } else {
-                            request.getRequestDispatcher("index.jsp").forward(request, response);
+                            request.getRequestDispatcher("register.jsp").forward(request, response);
                         }
                     } else {
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        request.getRequestDispatcher("register.jsp").forward(request, response);
                     }
                     break;
 
-                case "resetPassword":
+                case "reset-password":
                     if (email == null || email.isEmpty()) {
                         request.setAttribute("resetPasswordEmailError", "Email is required.");
                         hasError = true;
                     }
 
-                    if (password == null || password.isEmpty()) {
+                    if (newPassword == null || newPassword.isEmpty()) {
                         request.setAttribute("resetPasswordError", "New password is required.");
                         hasError = true;
                     }
 
                     if (!hasError) {
-                        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+                        String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt(12));
                         String updateQuery = "UPDATE customer SET password = ? WHERE email = ?";
                         try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
                             updateStmt.setString(1, hashedPassword);
@@ -182,11 +184,11 @@ public class AuthServlet extends HttpServlet {
                                 response.sendRedirect("password-reset-success.jsp");
                             } else {
                                 request.setAttribute("resetPasswordEmailError", "Email not found.");
-                                request.getRequestDispatcher("index.jsp").forward(request, response);
+                                request.getRequestDispatcher("resetPW.jsp").forward(request, response);
                             }
                         }
                     } else {
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        request.getRequestDispatcher("resetPW.jsp").forward(request, response);
                     }
                     break;
 

@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Authentication - ShopSphere</title>
-
+    <title>Login Page - ShopSphere</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -10,113 +9,51 @@
             crossorigin="anonymous"
     />
 
-    <link
-            rel="stylesheet"
-            href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"
-    />
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"/>
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/auth.css"/>
+    <link href="${pageContext.request.contextPath}/assets/css/auth.css" rel="stylesheet">
 </head>
-
 <body>
-<div class="container" id="container">
-    <!-- Sign In Form -->
-    <div class="form-container sign-in">
-        <form action="AuthServlet" method="post">
-            <h1>Sign In</h1>
-            <br/>
-            <input type="email" name="email" placeholder="Email"/>
-            <span class="error">
-                <%= request.getAttribute("signInEmailError") != null ? request.getAttribute("signInEmailError") : "" %>
-            </span>
-            <input type="password" name="password" placeholder="Password"/>
-            <span class="error">
-                <%= request.getAttribute("signInPasswordError") != null ? request.getAttribute("signInPasswordError") : "" %>
-            </span>
-            <button type="submit" name="action" value="signIn">Sign In</button>
-            <div class="line-container">
-                <hr/>
-                Or
-                <hr/>
-            </div>
-            <a href="#">Forget Your Password?</a>
-        </form>
-    </div>
-
-    <!-- Sign Up Form -->
-    <div class="form-container sign-up">
-        <form action="AuthServlet" method="post">
-            <h1>Create Account</h1>
-            <br/>
-            <input type="text" name="name" placeholder="Name"/>
-            <span class="error">
-                <%= request.getAttribute("signUpNameError") != null ? request.getAttribute("signUpNameError") : "" %>
-            </span>
-            <input type="email" name="email" placeholder="Email"/>
-            <span class="error">
-                <%= request.getAttribute("signUpEmailError") != null ? request.getAttribute("signUpEmailError") : "" %>
-            </span>
-            <input type="password" name="password" placeholder="Password"/>
-            <span class="error">
-                <%= request.getAttribute("signUpPasswordError") != null ? request.getAttribute("signUpPasswordError") : "" %>
-            </span>
-            <button type="submit" name="action" value="signUp">Sign Up</button>
-        </form>
-    </div>
-
-    <!-- Reset Password -->
-    <div class="form-container reset-password">
-        <form action="AuthServlet" method="post">
-            <div id="send-otp-form">
-                <h1>Reset Password</h1>
-                <p class="text-muted small mb-3">
-                    Enter your email address to send OTP
-                </p>
-                <input type="email" name="email" placeholder="Email"/>
-                <span class="error">
-                    <%= request.getAttribute("resetPasswordEmailError") != null ? request.getAttribute("resetPasswordEmailError") : "" %>
-                </span>
-                <div class="d-flex justify-content-center align-items-center">
-                    <button
-                            type="button"
-                            name="action"
-                            value="sendOtp"
-                            id="send-otp-btn"
-                            onclick="showResetForm()"
-                    >
-                        Send OTP
-                    </button>
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="card shadow-lg">
+        <div class="row g-0">
+            <div class="col-md-6">
+                <div class="welcome-section h-100 d-flex flex-column justify-content-center">
+                    <h1>Welcome Back to ShopSphere</h1>
+                    <p>Sign in to your account to continue your shopping experience.</p>
                 </div>
             </div>
-
-            <div id="reset-pw-form" class="hide w-100">
-                <input type="password" name="password" placeholder="New Password"/>
-                <span class="error">
-                    <%= request.getAttribute("resetPasswordError") != null ? request.getAttribute("resetPasswordError") : "" %>
-                </span>
-                <div class="d-flex justify-content-center align-items-center">
-                    <button type="submit" name="action" value="resetPassword">
-                        Reset Password
-                    </button>
+            <div class="col-md-6">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="text-center mb-4">Login</h2>
+                    <form id="loginForm" action="auth" method="POST">
+                        <input type="hidden" name="action" value="login">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+                            <div class="invalid-feedback">Please enter a valid email address.</div>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                                <button type="button" class="password-toggle" data-target="password">
+                                    <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                                </button>
+                            </div>
+                            <div class="invalid-feedback">Password is required.</div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Sign In</button>
+                        <div class="text-center">
+                            <a href="resetPW.jsp" class="text-decoration-none">Forgot Password?</a>
+                            <p class="mt-3 mb-0">Don't have an account? <a href="register.jsp" class="text-decoration-none">Register</a></p>
+                        </div>
+                    </form>
                 </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- Overlay -->
-    <div class="toggle-container">
-        <div class="toggle">
-            <div class="toggle-panel toggle-left">
-                <h1>Hello, Friend!</h1>
-                <p>
-                    Register with your personal details to use all of site features
-                </p>
-                <button class="hidden" id="login">Sign In</button>
-            </div>
-            <div class="toggle-panel toggle-right">
-                <h1>Welcome Back!</h1>
-                <p>Enter your personal details to use all of site features</p>
-                <button class="hidden" id="register">Sign Up</button>
             </div>
         </div>
     </div>
